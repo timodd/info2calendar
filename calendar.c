@@ -9,6 +9,8 @@ calendar
 #include "calendar.h"
 
 int AppointmentCount = 0;
+int countAppointments = 0;
+TAppointment Calendar[MAXAPPOINTMENTS];
 
 void createAppointment()
 {
