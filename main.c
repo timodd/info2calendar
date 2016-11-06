@@ -8,7 +8,7 @@
 
 int main()
 {
-   int choice;
+   int choice = -1;
    char *menuTitle = "Terminverwaltung V 0.2";
    char *menuPoints[7] = { "Neuen Termin anlegen",
                            "Termin bearbeiten",
@@ -26,6 +26,8 @@ int main()
      choice = getMenu(menuTitle, menuPoints, 7);
 
    } while (choice != 7);
+   printf("\nToDo: %s",menuPoints[choice]);
+   waitForEnter();
 
    return 0;
 }

@@ -24,9 +24,10 @@ typedef struct
    TTime Time;
    char *pDescription;
    char *pPlace;
+   TTime *duration;
 } TAppointment;
 
 extern int countAppointments;
-extern TAppointment Calendar[MAXAPPOINTMENTS];
+extern TAppointment Calendar[];
 
 #endif

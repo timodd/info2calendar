@@ -105,7 +105,6 @@ int isTimeValid(int h, int m, int s)
 
 int getTimeFromString(char time[], TTime *pt)
 {
-   //TTime *pTime = pt; //makes sense???
    int i = 0;
    int pos = 0;
    int isvalid = -1;

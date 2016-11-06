@@ -19,7 +19,7 @@ void waitForEnter()
    do
    {
       w = getchar();
-   }while(!w);
+   }while(w != '\n');
 }
 
 void clearScreen()
