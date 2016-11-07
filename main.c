@@ -9,8 +9,8 @@
 int main()
 {
    int choice = -1;
-   char *menuTitle = "Terminverwaltung V 0.2";
-   char *menuPoints[7] = { "Neuen Termin anlegen",
+   unsigned char *menuTitle = "Terminverwaltung V 0.2";
+   char *menuPoints[NUMPOINTS] = { "Neuen Termin anlegen",
                            "Termin bearbeiten",
                            "Termin löschen",
                            "Termin suchen",
@@ -22,12 +22,21 @@ int main()
    do
    {
       clearScreen();
-
-     choice = getMenu(menuTitle, menuPoints, 7);
-
-   } while (choice != 7);
-   printf("\nToDo: %s",menuPoints[choice]);
-   waitForEnter();
-
+      choice = getMenu(menuTitle, menuPoints, NUMPOINTS);
+//      printf("\nToDo: %s",menuPoints[choice]);
+      printf("ToDo: ");
+      switch (choice)
+      {
+         case 1: createAppointment();     break;
+         case 2: editAppointment();       break;
+         case 3: deleteAppointment();     break;
+         case 4: searchAppointment();     break;
+         case 5: sortCalendar();          break;
+         case 6: listCalendar();          break;
+         case NUMPOINTS: exitProg();      break;
+      }
+      if (choice != NUMPOINTS)
+         waitForEnter();
+   } while (choice != NUMPOINTS);
    return 0;
 }

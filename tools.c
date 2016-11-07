@@ -16,10 +16,11 @@ void clearBuffer()
 void waitForEnter()
 {
    unsigned char w;
-   do
+   printf("\n\nBitte Eingabetaste druecken... ");
+   while(w != '\n')
    {
       w = getchar();
-   }while(w != '\n');
+   }
 }
 
 void clearScreen()
@@ -70,9 +71,14 @@ void printLine(char c,int i)
    }while (i);
 }
 
-/* Code from info1. Maybe obsolete, but don't throw away, yet.
+void exitProg()
+{
+   clearScreen();
+   printf("exit\n");
+}
+// Code from info1. Maybe obsolete, but don't throw away, yet.
 
-int Strlen(char *str)
+int Strlen(unsigned char *str)
 {
     int len = 0;
 
@@ -94,4 +100,3 @@ void getText(unsigned char *text)
         clearBuffer();
     }while (Strlen(text) == 0);
 }
-*/

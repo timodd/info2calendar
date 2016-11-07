@@ -14,36 +14,30 @@ TAppointment Calendar[MAXAPPOINTMENTS];
 
 void createAppointment()
 {
-   printf("Termin erzeugen\n");
-   waitForEnter();
+   printf("neuen Termin anlegen");
 }
 
 void editAppointment()
 {
-   printf("Termin bearbeiten\n");
-   waitForEnter();
+   printf("Termin bearbeiten");
 }
 
 void deleteAppointment()
 {
-   printf("Termin löschen\n");
-   waitForEnter();
+   printf("Termin löschen");
 }
 
 void searchAppointment()
 {
-   printf("Termin suchen\n");
-   waitForEnter();
+   printf("Termin suchen");
 }
 
 void sortCalendar()
 {
-   printf("Kalender sortieren\n");
-   waitForEnter();
+   printf("Termine sortieren");
 }
 
 void listCalendar()
 {
-   printf("Kalender auflisten\n");
-   waitForEnter();
+   printf("Termine auflisten");
 }

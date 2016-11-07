@@ -1,34 +1,28 @@
 #include <stdio.h>
 #include "escapesequenzen.h"
 #include "tools.h"
+#include "datastructure.h"
 
-int getMenu(char *mt, char *mp[], int i)
+int getMenu(unsigned char *mt, char *mp[], int i)
 {
-   int c = 0, j = 0, p = 0;
-   char *question = "\n\nIhre Wahl: ";
-   void printQuestion()
-   {
-      do
-      {
-         printf("%s",question);
-         while (!scanf("%d[1-7]", &c))
-         {
-            c = 0;
-            clearBuffer();
-         }
-      } while(c < 1 || c > 7);
-   }
-
-   clearScreen();
-   printf("%s\n",mt);
-   printLine('=', 30);
+   int c = 0, p = 0;
+   //print menue on empty screen
    do
    {
-      printf("\n%d. %s",p + 1, mp[p]);
-      p++;
-   } while(p < 7);
-
-   printQuestion();
-
-return c;
+      c = 0;
+      p = 0;
+      clearScreen();
+      printf("%s\n",mt);
+      printLine('=', Strlen(mt));
+      POSITION(3,0);
+      do
+      {
+         printf("\n%d. %s",p + 1, mp[p]);
+         p++;
+      } while(p < NUMPOINTS);
+      printf("\n\nIhre Wahl: ");
+      scanf("%d", &c);
+      clearBuffer();
+   } while(c < 1 || c > NUMPOINTS);
+   return c;
 }

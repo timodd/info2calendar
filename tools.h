@@ -6,10 +6,10 @@ int askYesOrNo(char[]);
 void clearBuffer();
 void waitForEnter();
 void printLine(char, int);
-
-/* Code from info1. Maybe obsolete, but don't throw away, yet.
-int Strlen(char *str);
+void exitProg();
+//Code from info1. Maybe obsolete, but don't throw away, yet.
+int Strlen(unsigned char *str);
 void getText(unsigned char *text);
-*/
+
 
 #endif
