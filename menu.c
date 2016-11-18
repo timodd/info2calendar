@@ -26,3 +26,17 @@ int getMenu(unsigned char *mt, char *mp[], int i)
    } while(c < 1 || c > NUMPOINTS);
    return c;
 }
+
+void getSubMenu(unsigned char *title/*, char *point[], int i*/)
+{
+   int p = 0, valid = 0;
+   //print submenue on empty screen
+      clearScreen();
+      printf("%s\n",title);
+      printLine('=', Strlen(title));
+//      do
+//      {
+//         printf("\n%s", point[p]);
+//         p++;
+//      } while(p < i);
+}

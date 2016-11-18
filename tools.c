@@ -90,13 +90,13 @@ int Strlen(unsigned char *str)
 }
 
 //Text einlesen
-void getText(unsigned char *text)
+void getText(unsigned char *text, int maxlen, int forceinput)
 {
-    *text = 0;
+    text = NULL;
     do
     {
         POSITION(10, 1);
-        scanf("%150[^\n]", text);
+        scanf("%100[^\n]", text);
         clearBuffer();
     }while (Strlen(text) == 0);
 }

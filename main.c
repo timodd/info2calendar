@@ -5,6 +5,7 @@
 #include "menu.h"
 #include "calendar.h"
 #include "escapesequenzen.h"
+#include <string.h>
 
 int main()
 {
@@ -23,7 +24,6 @@ int main()
    {
       clearScreen();
       choice = getMenu(menuTitle, menuPoints, NUMPOINTS);
-//      printf("\nToDo: %s",menuPoints[choice]);
       printf("ToDo: ");
       switch (choice)
       {

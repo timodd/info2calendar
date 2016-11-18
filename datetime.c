@@ -2,6 +2,71 @@
 #include <stdio.h>
 #include "datastructure.h"
 #include "datetime.h"
+#include <string.h>
+#include "escapesequenzen.h"
+
+// TODO getDateFromString mit Wochentagberechnung erweitern
+
+// Benutzereingabe eines Datums und Umwandlung in ein TDate (Funtionalität aus der main.c von Uebung1)
+void getDate(char prompt[], TDate *dat)
+{
+
+   char Input[20];
+   printf("%s",prompt);
+   do
+   {
+      *Input = '\0';
+      scanf("%19[^\n]", Input);
+      clearBuffer();
+      if (*Input)
+      {
+         if (getDateFromString(Input, dat))
+         {
+           printf("ok");
+         }
+         else
+         {
+             DOWN(2);
+            printf("Das eingegebene Datum %s ist ungueltig!", Input);
+            UP(3);
+         }
+      }
+      else
+      {
+         DOWN(2);
+         printf("Sie haben nichts eingegeben!");
+         UP(3);
+      }
+   } while (!*Input);
+
+}
+
+/* Benutzereingabe einer Uhrzeit (auch ohne Sekunden) und Umwandlung in ein TTime (Funtionalität aus der main.c von Uebung1)
+   Es muss zusätzlich Speicher für die Termindauer reserviert werden
+*/
+void getTime(char prompt[], TTime *tim)
+{
+      char Input[20];
+      *Input = '\0';
+      printf("%s",prompt);
+      scanf("%19[^\n]", Input);
+      clearBuffer();
+      if (*Input)
+      {
+         if (getTimeFromString(Input, &Time))
+      {
+            printf("ok");
+      }
+         else
+            DOWN(2);
+            printf("Die eingegebene Uhrzeit ist ungueltig!\n");
+            UP(3);
+      }
+      else
+         DOWN(2);
+         printf("Sie haben nichts eingegeben!");
+         UP(3);
+}
 
 int isLeapYear(int year)
 {
@@ -14,7 +79,7 @@ int isLeapYear(int year)
 int isDateValid(TDate date)
 {
    int isvalid = 0;
-   if (date.Month>= 1 && date.Month <=12 && date.Day >= 1 && date.Day <= 28 && date.Year >= 0)
+   if (date.Month>= 1 && date.Month <=12 && date.Day >= 1 && date.Day <= 31 && date.Year >= 0)
    {
       switch (date.Month)
       {
@@ -24,7 +89,7 @@ int isDateValid(TDate date)
          case 7:
          case 8:
          case 10:
-         case 12: isvalid = date.Day <= 31 ? 1 : 0;          break;
+         case 12: isvalid = 1;                               break;
 
          case 4:
          case 6:
@@ -45,13 +110,37 @@ int isDateValid(TDate date)
    return isvalid;
 }
 
-int getDateFromString(char input[], TDate *Date)
+int getDateFromString(char input[], TDate *date)
 {
+    char *p;
+    int i;
 
-    if(sscanf(input,"%d.%d.%d",&Date->Day,&Date->Month,&Date->Year) && isDateValid(*Date))
-      return 1;
-   return 0;
+    p = strtok(input, ".");
+
+    for(i = 0; (p != NULL); i++){
+        if(i == 0){
+            (*date).Day = atoi(p);
+        }else if(i == 1){
+            (*date).Month = atoi(p);
+        }else if(i == 2){
+            (*date).Year = atoi(p);
+        }
+        p = strtok(NULL, ".");
+    }
+
+    return isDateValid((*date));
 }
+
+
+//int getDateFromString(char input[], TDate *Date)
+//{
+//
+//    if(sscanf(input,"%d.%d.%d",&Date->Day,&Date->Month,&Date->Year) && isDateValid(*Date))
+//      return 1;
+//   return 0;
+//}
+
+
 //int getDateFromString(char date[],TDate *pd)
 //{
 //   int i = 0, pos = 0, isval = 0, delim[2];
@@ -95,32 +184,28 @@ int getDateFromString(char input[], TDate *Date)
 //   return 0;
 //}
 
-int isTimeValid(int h, int m, int s)
+int isTimeValid(TTime time)
 {
-   if (h >= 0 && h <= 23 && m >= 0 && m <= 59 && s >= 0 && s <= 59)
-      return 1;
-   else
       return 0;
 }
 
-int getTimeFromString(char time[], TTime *pt)
+int getTimeFromString(char input[], TTime *time)
 {
    int i = 0;
    int pos = 0;
    int isvalid = -1;
-   int hour, minute, second;
-   TTime *pTime = pt;
-   pTime -> Hour = NULL;
-   pTime -> Minute = NULL;
-   pTime -> Second = NULL;
 
-   while(time[i] && pos < 3)
+   time -> Hour = NULL;
+   time -> Minute = NULL;
+   time -> Second = NULL;
+
+   while(input[i] && pos < 3)
    {
-      if (time[i] == '.')
+      if (input[i] == ':') //TODO
          pos++;
       i++;
    }
-   isvalid = isTimeValid(hour, minute, second);
+   isvalid = isTimeValid(*time);
    return isvalid;
 }
 
