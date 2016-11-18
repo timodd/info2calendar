@@ -9,7 +9,7 @@ typedef enum { NotADay = 0, Mo, Tu, We, Th, Fr, Sa, Su } TDayOfTheWeek;
 typedef struct
 {
     int Day, Month, Year;
-    TDayOfTheWeek weekday;
+    TDayOfTheWeek Weekday;
 } TDate;
 
 //typedef struct TDate Date;

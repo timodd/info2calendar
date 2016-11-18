@@ -4,41 +4,40 @@
 #include "datetime.h"
 #include <string.h>
 #include "escapesequenzen.h"
+#include "tools.h"
 
 // TODO getDateFromString mit Wochentagberechnung erweitern
 
 // Benutzereingabe eines Datums und Umwandlung in ein TDate (Funtionalität aus der main.c von Uebung1)
-void getDate(char prompt[], TDate *dat)
+void getDate(char prompt[], TDate *d)
 {
-
+   int t;
    char Input[20];
-   printf("%s",prompt);
    do
    {
       *Input = '\0';
+      STORE_POS;
+      CLEAR_LINE;
+      printf("%s",prompt);
       scanf("%19[^\n]", Input);
       clearBuffer();
       if (*Input)
       {
-         if (getDateFromString(Input, dat))
+         t = getDateFromString(Input, d);
+         if (!t)
          {
-           printf("ok");
-         }
-         else
-         {
-             DOWN(2);
-            printf("Das eingegebene Datum %s ist ungueltig!", Input);
-            UP(3);
+            DOWN(2);
+            printf("Das eingegebene Datum ist ungueltig!");
+            RESTORE_POS;
          }
       }
       else
       {
          DOWN(2);
          printf("Sie haben nichts eingegeben!");
-         UP(3);
+         RESTORE_POS;
       }
-   } while (!*Input);
-
+   } while (!t);
 }
 
 /* Benutzereingabe einer Uhrzeit (auch ohne Sekunden) und Umwandlung in ein TTime (Funtionalität aus der main.c von Uebung1)
@@ -110,7 +109,7 @@ int isDateValid(TDate date)
    return isvalid;
 }
 
-int getDateFromString(char input[], TDate *date)
+int getDateFromString(char input[], TDate *d)
 {
     char *p;
     int i;
@@ -119,16 +118,16 @@ int getDateFromString(char input[], TDate *date)
 
     for(i = 0; (p != NULL); i++){
         if(i == 0){
-            (*date).Day = atoi(p);
+            (*d).Day = atoi(p);
         }else if(i == 1){
-            (*date).Month = atoi(p);
+            (*d).Month = atoi(p);
         }else if(i == 2){
-            (*date).Year = atoi(p);
+            (*d).Year = atoi(p);
         }
         p = strtok(NULL, ".");
     }
 
-    return isDateValid((*date));
+    return isDateValid((*d));
 }
 
 
@@ -141,71 +140,38 @@ int getDateFromString(char input[], TDate *date)
 //}
 
 
-//int getDateFromString(char date[],TDate *pd)
-//{
-//   int i = 0, pos = 0, isval = 0, delim[2];
-////   int day, month, year, day1, day2, month1, month2, year1, year2, year3, year4;
-//   //char day[2], month[2], year[4];
-//   TDate *pDate = pd; //???
-////   pDate -> Day   = 0;
-////   pDate -> Month = 0;
-////   pDate -> Year  = 0;
-//   char *pday = NULL;
-//   char *pmonth = NULL;
-//
-//   while(date[i])
-//   {
-//      if (date[i] == '.')
-//      {
-//         switch (pos)
-//         {
-//            case 0: *pday = date[i-2]; day[0] = *pday; break;
-//            case 1: *pmonth = date[i-2]; month[0] = *pmonth; break;
-//         }
-//
-//         delim[pos] = i;
-//         pos++;
-//      }
-//      i++;
-//   }
-//
-//   isval = isDateValid(day, month, year);
-//
-//
-//
-//
-//   if (isval)
-//   {
-//      pDate -> Day   = day;
-//      pDate -> Month = month;
-//      pDate -> Year  = year;
-//      return 1;
-//   }
-//   return 0;
-//}
 
-int isTimeValid(TTime time)
+int isTimeValid(TTime Time)
 {
-      return 0;
+    if (Time.Hour >= 0 && Time.Hour <= 23)
+
+        if (Time.Minute >= 0 && Time.Minute <= 59)
+
+            if (Time.Second >= 0 && Time.Second <= 59)
+                return 1;
+
+    return 0;
 }
 
-int getTimeFromString(char input[], TTime *time)
+int getTimeFromString(char input[], TTime *Time)
 {
-   int i = 0;
-   int pos = 0;
-   int isvalid = -1;
+    char *p;
+    int i;
 
-   time -> Hour = NULL;
-   time -> Minute = NULL;
-   time -> Second = NULL;
+    p = strtok(input, ":");
 
-   while(input[i] && pos < 3)
-   {
-      if (input[i] == ':') //TODO
-         pos++;
-      i++;
-   }
-   isvalid = isTimeValid(*time);
-   return isvalid;
+    for(i = 0; (p != NULL); i++){
+        if(i == 0){
+            (*Time).Hour = atoi(p);
+        }else if(i == 1){
+            (*Time).Minute = atoi(p);
+        }else if(i == 2){
+            (*Time).Second = atoi(p);
+        }
+        p = strtok(NULL, ":");
+    }
+
+    return isTimeValid((*Time));
 }
+
 

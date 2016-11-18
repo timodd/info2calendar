@@ -14,6 +14,7 @@ TAppointment Calendar[MAXAPPOINTMENTS];
 
 void createAppointment()
 {
+   TAppointment apptmnt;
    TDate date;
    TTime time;
    unsigned char *title = "Erfassung eines neuen Termins";
@@ -25,10 +26,17 @@ void createAppointment()
             };
 
    getSubMenu(title/*, points, 5*/);
-   POSITION (4,0);
+   POSITION(4,0);
    getDate(points[0], &date);
-   POSITION (5,0);
+   apptmnt.Date.Day = date.Day;
+   apptmnt.Date.Month = date.Month;
+   apptmnt.Date.Year = date.Year;
+
+   POSITION(15,0);
+   printf("%d.%d.%d",apptmnt.Date.Day,apptmnt.Date.Month,apptmnt.Date.Year);
+   POSITION(5,0);
    getTime(points[1], &time);
+   POSITION(7,0);
    printf("Termin wurde gespeichert");
 }
 
@@ -55,4 +63,9 @@ void sortCalendar()
 void listCalendar()
 {
    printf("Termine auflisten");
+}
+
+void freeCalendar()
+{
+
 }
