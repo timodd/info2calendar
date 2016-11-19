@@ -11,5 +11,5 @@ void deleteAppointment();
 void searchAppointment();
 void sortCalendar();
 void listCalendar();
-
+void printAppointment(TAppointment *);
 #endif
