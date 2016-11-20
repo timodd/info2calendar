@@ -1,5 +1,6 @@
 #ifndef TOOLS_H
    #define TOOLS_H TOOLS_H
+#include "datastructure.h"
 
 void clearScreen();
 int askYesOrNo(char[]);
@@ -9,7 +10,7 @@ void printLine(char, int);
 void exitProg();
 //Code from info1. Maybe obsolete, but don't throw away, yet.
 int Strlen(unsigned char *str);
-//void getText(unsigned char *, int, int);
+void getText(unsigned char *, TAppointment *, int, int);
 
 
 #endif

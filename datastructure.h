@@ -23,9 +23,9 @@ typedef struct
 {
    TDate Date;
    TTime Time;
-   char *pDescription;
-   char *pPlace;
-   TTime *duration;
+   unsigned char *pDescription;
+   unsigned char *pPlace;
+   TTime *pDuration;
 } TAppointment;
 
 extern int countAppointments;

@@ -10,7 +10,7 @@
 int main()
 {
    int choice = -1;
-   unsigned char *menuTitle = "Terminverwaltung V 0.2";
+   unsigned char *menuTitle = "Terminverwaltung V 0.3";
    char *menuPoints[NUMPOINTS] = { "Neuen Termin anlegen",
                            "Termin bearbeiten",
                            "Termin löschen",

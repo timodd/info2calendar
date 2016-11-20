@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "escapesequenzen.h"
 #include "tools.h"
+#include "datastructure.h"
 
 //clear the input buffer
 void clearBuffer()
@@ -90,13 +91,17 @@ int Strlen(unsigned char *str)
 }
 
 //Text einlesen
-//void getText(unsigned char *text, int maxlen, int forceinput)
-//{
-//    text = NULL;
-//    do
-//    {
-//        POSITION(10, 1);
-//        scanf("%100[^\n]", text);
-//        clearBuffer();
-//    }while (Strlen(text) == 0);
-//}
+void getText(unsigned char *prompt, TAppointment *txt, int maxlen, int forceinput)
+{
+    char input[maxlen];
+    do
+    {
+        printf("\n%s",prompt);
+        scanf("%100[^\n]", input);
+        clearBuffer();
+        if (forceinput == 1)
+         txt -> pDescription = input;
+        else
+         txt -> pPlace = input;
+    }while (Strlen(input) == 0);
+}

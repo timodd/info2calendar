@@ -86,7 +86,7 @@ void getTime(char prompt[], TTime *time)
 
 int isLeapYear(int year)
 {
-   if(((4 % year == 0) && (100 % year != 0)) || (400 % year == 0))
+   if(((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
       return 1;
    else
       return 0;
@@ -130,28 +130,27 @@ int getDateFromString(char input[], TDate *d)
 {
    char *p;
    int i, td, tm, ty;
-   TDayOfTheWeek wday;
    p = strtok(input, ".");
    for(i = 0; (p != NULL); i++)
    {
       if(i == 0)
       {
-         (*d).Day = atoi(p);
+         d -> Day = atoi(p);
       }
       else if(i == 1)
       {
-         (*d).Month = atoi(p);
+         d -> Month = atoi(p);
       }
       else if(i == 2)
       {
-         (*d).Year = atoi(p);
+         d -> Year = atoi(p);
       }
       p = strtok(NULL, ".");
    }
    td = (*d).Day;
    tm = (*d).Month;
    ty = (*d).Year;
-   (*d).Weekday = (td+=tm<3?ty--:ty-2,23*tm/9+td+4+ty/4-ty/100+ty/400)%7;
+   d -> Weekday = (td+=tm<3?ty--:ty-2,23*tm/9+td+4+ty/4-ty/100+ty/400)%7;
     printf("\n\n%d", (*d).Weekday);
    return isDateValid((*d));
 }
