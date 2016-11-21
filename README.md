@@ -1,3 +1,2 @@
 ##### info2calendar
-Beuth Informatik2 project 
-by Andry and Timo
+Beuth Informatik2 project WS2016/17
