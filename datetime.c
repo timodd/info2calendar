@@ -6,7 +6,6 @@
 #include "escapesequenzen.h"
 #include "tools.h"
 
-// TODO getDateFromString mit Wochentagberechnung erweitern
 
 void printDate(TDate *date)
 {
@@ -55,6 +54,7 @@ void getTime(char prompt[], TTime *time)
 {
    int boolval;
    char Input[20];
+   time -> Second = -1;
    do
    {
       *Input = '\0';
@@ -181,17 +181,19 @@ int getTimeFromString(char input[], TTime *Time)
    {
       if(i == 0)
       {
-         (*Time).Hour = atoi(p);
+         Time -> Hour = atoi(p);
       }
       else if(i == 1)
       {
-         (*Time).Minute = atoi(p);
+         Time -> Minute = atoi(p);
       }
       else if(i == 2)
       {
-         (*Time).Second = atoi(p);
+         Time -> Second = atoi(p);
       }
       p = strtok(NULL, ":");
+      if ((*Time).Second == -1)
+            Time -> Second = 0;
    }
 
    return isTimeValid(*Time);
