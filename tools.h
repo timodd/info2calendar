@@ -10,7 +10,7 @@ void printLine(char, int);
 void exitProg();
 //Code from info1. Maybe obsolete, but don't throw away, yet.
 int Strlen(unsigned char *str);
-void getText(unsigned char *, TAppointment *, int, int);
+void getText(char *, TAppointment *, int, int);
 
 
 #endif

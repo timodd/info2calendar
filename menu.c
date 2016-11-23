@@ -27,9 +27,9 @@ int getMenu(unsigned char *mt, char *mp[], int i)
    return c;
 }
 
-void getSubMenu(unsigned char *title/*, char *point[], int i*/)
+void getSubMenu(char *title/*, char *point[], int i*/)
 {
-   int p = 0, valid = 0;
+//   int p = 0, valid = 0;
    //print submenue on empty screen
       clearScreen();
       printf("%s\n",title);

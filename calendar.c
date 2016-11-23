@@ -14,6 +14,7 @@ Funktionen:
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "datastructure.h"
 #include "datetime.h"
 #include "tools.h"
@@ -49,7 +50,7 @@ void createAppointment()
    Calendar[countAppointments].pPlace = calloc(15, sizeof(char));
 
 
-   unsigned char *title = "Erfassung eines neuen Termins";
+   char *title = "Erfassung eines neuen Termins";
    char *points[5] = {  "Datum        : ",
                      "Uhrzeit      : ",
                      "Beschreibung : ",
@@ -72,16 +73,18 @@ void createAppointment()
    Calendar[countAppointments].Time.Minute = time.Minute;
    Calendar[countAppointments].Time.Second = time.Second;
 
+   POSITION(13,0);
+   printf("%s", apptmnt.pDescription);
    POSITION(6,0);
    getText(points[2], &apptmnt, maxlen_description, 1);
-   POSITION(10,0);
    printf("%s", apptmnt.pDescription);
-   Calendar[countAppointments].pDescription = apptmnt.pDescription;
-
+   *strcpy(Calendar[countAppointments].pDescription, apptmnt.pDescription);
+   printf("%s", Calendar[countAppointments].pDescription);
    POSITION(7,0);
    getText(points[3], &apptmnt, maxlen_place, 0);
    printf("%s", apptmnt.pPlace);
-   Calendar[countAppointments].pPlace = apptmnt.pPlace;
+   *strcpy(Calendar[countAppointments].pPlace, apptmnt.pPlace);
+   printf("%s", Calendar[countAppointments].pPlace);
 
    (*countAppointp)++;
    POSITION(10,0);
@@ -111,13 +114,12 @@ void sortCalendar()
 
 void listCalendar()
 {
-   unsigned char *title = "Termine auflisten";
+   char *title = "Termine auflisten";
    CLEAR;
    getSubMenu(title/*, points, 5*/);
    for (i = 0; i < countAppointments; i++)
    {
-      printf("\n%d.Termin %d %d.%d.%d  %d:%d:%d", i + 1, Calendar[i].Date.Weekday, Calendar[i].Date.Day, Calendar[i].Date.Month, Calendar[i].Date.Year, Calendar[i].Time.Hour, Calendar[i].Time.Minute, Calendar[i].Time.Second);
-      printf("\n%s    %s",Calendar[i].pDescription, Calendar[i].pPlace);
+      printf("\n%d.Termin %d %02d.%02d.%02d  %02d:%02d:%02d\n%s                    %s", i + 1, Calendar[i].Date.Weekday, Calendar[i].Date.Day, Calendar[i].Date.Month, Calendar[i].Date.Year, Calendar[i].Time.Hour, Calendar[i].Time.Minute, Calendar[i].Time.Second, Calendar[i].pPlace, Calendar[i].pDescription);
    }
 }
 

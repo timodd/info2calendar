@@ -91,7 +91,7 @@ int Strlen(unsigned char *str)
 }
 
 //Text einlesen
-void getText(unsigned char *prompt, TAppointment *txt, int maxlen, int forceinput)
+void getText(char *prompt, TAppointment *txt, int maxlen, int forceinput)
 {
     char input[maxlen];
     do
