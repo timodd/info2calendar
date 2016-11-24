@@ -3,7 +3,7 @@
 #include "tools.h"
 #include "datastructure.h"
 
-int getMenu(unsigned char *mt, char *mp[], int i)
+int getMenu(char *mt, char *mp[], int i)
 {
    int c = 0, p = 0;
    //print menue on empty screen
