@@ -18,7 +18,7 @@ void printTime(TTime *time)
 
 void getDate(char prompt[], TDate *d)
 {
-   int boolval;
+   int isDate;
    char Input[20];
    do
    {
@@ -30,8 +30,8 @@ void getDate(char prompt[], TDate *d)
       clearBuffer();
       if (*Input)
       {
-         boolval = getDateFromString(Input, d);
-         if (!boolval)
+         isDate = getDateFromString(Input, d);
+         if (!isDate)
          {
             DOWN(2);
             printf("Das eingegebene Datum ist ungueltig!");
@@ -44,7 +44,7 @@ void getDate(char prompt[], TDate *d)
          printf("Sie haben nichts eingegeben!");
          RESTORE_POS;
       }
-   } while (!boolval);
+   } while (!isDate);
 }
 
 /* Benutzereingabe einer Uhrzeit (auch ohne Sekunden) und Umwandlung in ein TTime (Funtionalität aus der main.c von Uebung1)
@@ -52,8 +52,10 @@ void getDate(char prompt[], TDate *d)
 */
 void getTime(char prompt[], TTime *time)
 {
-   int boolval;
+   int isTime = 0;
    char Input[20];
+   time -> Hour = -1;
+   time -> Minute = -1;
    time -> Second = -1;
    do
    {
@@ -65,8 +67,8 @@ void getTime(char prompt[], TTime *time)
       clearBuffer();
       if (*Input)
       {
-         boolval =  getTimeFromString(Input, time);
-         if (!boolval)
+         isTime =  getTimeFromString(Input, time);
+         if (!isTime)
          {
             DOWN_LINE;
             CLEAR_LINE;
@@ -81,7 +83,7 @@ void getTime(char prompt[], TTime *time)
          printf("Sie haben nichts eingegeben!");
          RESTORE_POS;
       }
-   }while(!boolval);
+   }while(!isTime);
 }
 
 int isLeapYear(int year)
@@ -156,15 +158,6 @@ int getDateFromString(char input[], TDate *d)
 }
 
 
-//int getDateFromString(char input[], TDate *Date)
-//{
-//
-//    if(sscanf(input,"%d.%d.%d",&Date->Day,&Date->Month,&Date->Year) && isDateValid(*Date))
-//      return 1;
-//   return 0;
-//}
-
-
 int isTimeValid(TTime Time)
 {
     if (Time.Hour >= 0 && Time.Hour <= 23 && Time.Minute >= 0 && Time.Minute <= 59 && Time.Second >= 0 && Time.Second <= 59)
@@ -182,19 +175,37 @@ int getTimeFromString(char input[], TTime *Time)
       if(i == 0)
       {
          Time -> Hour = atoi(p);
+         STORE_POS;
+         CLEAR_LINE;
+         POSITION(14,0);
+         printf("%d",(*Time).Hour);
+         RESTORE_POS;
       }
       else if(i == 1)
       {
          Time -> Minute = atoi(p);
+         STORE_POS;
+         CLEAR_LINE;
+         POSITION(14,2);
+         printf("%d",(*Time).Minute);
+         RESTORE_POS;
       }
       else if(i == 2)
       {
          Time -> Second = atoi(p);
+         STORE_POS;
+         CLEAR_LINE;
+         POSITION(14,4);
+         printf("%d",(*Time).Second);
+         RESTORE_POS;
       }
       p = strtok(NULL, ":");
       if ((*Time).Second == -1)
             Time -> Second = 0;
+      if ((*Time).Minute == -1)
+            Time -> Minute = 0;
    }
 
    return isTimeValid(*Time);
 }
+

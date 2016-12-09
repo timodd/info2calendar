@@ -25,7 +25,7 @@ typedef struct
    TTime Time;
    char *pDescription;
    char *pPlace;
-   TTime *pDuration;
+   TTime Duration;
 } TAppointment;
 
 extern int countAppointments;
