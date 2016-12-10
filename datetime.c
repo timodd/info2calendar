@@ -7,13 +7,14 @@
 #include "tools.h"
 
 
-void printDate(TDate *date)
+void printDate(TDate date)
 {
-
+   printf("%02d.%02d.%04d:\n", date.Day, date.Month, date.Year);
+   printLine('-', 15);
 }
-void printTime(TTime *time)
+void printTime(TTime time)
 {
-
+   printf("%02d:%02d -> ",time.Hour, time.Minute);
 }
 
 void getDate(char prompt[], TDate *d)
@@ -33,14 +34,21 @@ void getDate(char prompt[], TDate *d)
          isDate = getDateFromString(Input, d);
          if (!isDate)
          {
-            DOWN(2);
+            POSITION(10,0);
+            CLEAR_LINE;
             printf("Das eingegebene Datum ist ungueltig!");
             RESTORE_POS;
+         }
+         else
+         {
+            POSITION(10,0);
+            CLEAR_LINE;
          }
       }
       else
       {
-         DOWN(2);
+         POSITION(10,0);
+         CLEAR_LINE;
          printf("Sie haben nichts eingegeben!");
          RESTORE_POS;
       }
@@ -70,15 +78,20 @@ void getTime(char prompt[], TTime *time)
          isTime =  getTimeFromString(Input, time);
          if (!isTime)
          {
-            DOWN_LINE;
+            POSITION(10,0);
             CLEAR_LINE;
-            printf("Die eingegebene Uhrzeit ist ungueltig!\n");
+            printf("Die eingegebene Uhrzeit ist ungueltig!");
             RESTORE_POS;
+         }
+         else
+         {
+            POSITION(10,0);
+            CLEAR_LINE;
          }
       }
       else
       {
-         DOWN_LINE;
+         POSITION(10,0);
          CLEAR_LINE;
          printf("Sie haben nichts eingegeben!");
          RESTORE_POS;
@@ -149,11 +162,10 @@ int getDateFromString(char input[], TDate *d)
       }
       p = strtok(NULL, ".");
    }
-   td = (*d).Day;
-   tm = (*d).Month;
-   ty = (*d).Year;
+   td = d -> Day;
+   tm = d -> Month;
+   ty = d -> Year;
    d -> Weekday = (td+=tm<3?ty--:ty-2,23*tm/9+td+4+ty/4-ty/100+ty/400)%7;
-    printf("\n\n%d", (*d).Weekday);
    return isDateValid((*d));
 }
 
@@ -175,34 +187,19 @@ int getTimeFromString(char input[], TTime *Time)
       if(i == 0)
       {
          Time -> Hour = atoi(p);
-         STORE_POS;
-         CLEAR_LINE;
-         POSITION(14,0);
-         printf("%d",(*Time).Hour);
-         RESTORE_POS;
       }
       else if(i == 1)
       {
          Time -> Minute = atoi(p);
-         STORE_POS;
-         CLEAR_LINE;
-         POSITION(14,2);
-         printf("%d",(*Time).Minute);
-         RESTORE_POS;
       }
       else if(i == 2)
       {
          Time -> Second = atoi(p);
-         STORE_POS;
-         CLEAR_LINE;
-         POSITION(14,4);
-         printf("%d",(*Time).Second);
-         RESTORE_POS;
       }
       p = strtok(NULL, ":");
-      if ((*Time).Second == -1)
+      if (Time -> Second == -1)
             Time -> Second = 0;
-      if ((*Time).Minute == -1)
+      if (Time -> Minute == -1)
             Time -> Minute = 0;
    }
 

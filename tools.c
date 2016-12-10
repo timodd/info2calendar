@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "escapesequenzen.h"
 #include "tools.h"
 #include "datastructure.h"
+
 
 //clear the input buffer
 void clearBuffer()
@@ -70,6 +72,7 @@ void printLine(char c,int i)
       printf("%c",c);
       i--;
    }while (i);
+   printf("\n");
 }
 
 void exitProg()
@@ -100,9 +103,9 @@ int Strlen(char *str)
 //        scanf("%100[^\n]", input);
 //        clearBuffer();
 //        if (forceinput == 1)
-//         txt -> pDescription = input;
+//         txt -> Description = input;
 //        else
-//         txt -> pPlace = input;
+//         txt -> Place = input;
 //    }while (Strlen(input) == 0);
 //}
 //
@@ -127,7 +130,7 @@ int getText(char *prompt,  char **ptxt , int Maxlen, int isForceInput)
         sprintf(Format, "%%%i[^\n]", Maxlen); // Format[20] = "%Maxlen[^\n]",  %% = %, %i = Maxlen
         do
         {
-            printf("%s: ",prompt); // Ausgabe der Eingabeaufforderung
+            printf("%s",prompt); // Ausgabe der Eingabeaufforderung
             ScanErg = scanf(Format, Input); // scanf("%Maxlen[^\n]", Input)
             clearBuffer();
             if(ScanErg == 1) // Falls der Benutzer etwas gültiges eingegeben hat

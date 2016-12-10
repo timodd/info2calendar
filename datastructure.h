@@ -23,8 +23,8 @@ typedef struct
 {
    TDate Date;
    TTime Time;
-   char *pDescription;
-   char *pPlace;
+   char *Description;
+   char *Place;
    TTime Duration;
 } TAppointment;
 

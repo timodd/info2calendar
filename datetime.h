@@ -10,6 +10,6 @@
    int isTimeValid(TTime);
    int getDateFromString(char [], TDate *);
    int getTimeFromString(char [], TTime *);
-   void printDate(TDate *);
-   void printTime(TTime *);
+   void printDate(TDate);
+   void printTime(TTime);
 #endif // DATETIME_H_INCLUDED
