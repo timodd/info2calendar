@@ -73,10 +73,16 @@ void createAppointment()
    CLEAR_LINE;
    getText(points[2], &apptmnt -> Description, maxlen_description, 1);
    *strcpy(Calendar[countAppointments].Description, apptmnt -> Description);
+   UP(1);
+   CLEAR_LINE;
+   printf("%s%s",points[2],Calendar[countAppointments].Description);
    POSITION(7,0);
    CLEAR_LINE;
    getText(points[3], &apptmnt -> Place, maxlen_place, 0);
    *strcpy(Calendar[countAppointments].Place, apptmnt -> Place);
+   UP(1);
+   CLEAR_LINE;
+   printf("%s%s",points[3],Calendar[countAppointments].Place);
    POSITION(8,0);
    CLEAR_LINE;
    getTime(points[4], &time);
@@ -133,24 +139,23 @@ void printAppointment(TAppointment *appoint)
 {
    char *wday[7] = {"So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"};
    int index = appoint -> Date.Weekday;
-   if (appoint - 1)
+   if ((appoint - 1) -> Date.Day)
    {
       TDate tmp = (appoint - 1) -> Date;
       if (tmp.Day != appoint -> Date.Day || tmp.Month != appoint -> Date.Month || tmp.Year != appoint -> Date.Year) //if new date
       {
          printf("\n");
-         printLine('=', 84);
+         printLine('=', 80);
          printf("%s, ", wday[index]);
          printDate(appoint -> Date);
       }
    }
-   else // if first date (good?)
+   else // if first date
       {
          printf("\n");
-         printLine('=', 84);
+         printLine('=', 80);
          printf("%s, ", wday[index]);
          printDate(appoint -> Date);
-
       }
       printTime(appoint -> Time);
       printf("%s  %s", appoint -> Place, appoint -> Description);

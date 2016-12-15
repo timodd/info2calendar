@@ -124,7 +124,7 @@ int getText(char *prompt,  char **ptxt , int Maxlen, int isForceInput)
         return 0;
 
     *ptxt = NULL;
-    Input = calloc( Maxlen + 1, sizeof(char));
+    Input = calloc( Maxlen + 1, sizeof(Input));
     if(Input) // if Input != Null => Speicher wurde reserviert
     {
         sprintf(Format, "%%%i[^\n]", Maxlen); // Format[20] = "%Maxlen[^\n]",  %% = %, %i = Maxlen
@@ -138,7 +138,7 @@ int getText(char *prompt,  char **ptxt , int Maxlen, int isForceInput)
                 Len = (unsigned)strlen(Input); // die Textlänge wird gezählt
                 if(Len > 0)
                 {
-                    *ptxt = calloc (Len + 1, sizeof(char) ); // Speicher für genau der Eingegebene Text reservieren
+                    *ptxt = calloc (Len + 1, sizeof(ptxt) ); // Speicher für genau der Eingegebene Text reservieren
                     if(*ptxt) // Speicher wurde reserviert
                     {
                         strcpy(*ptxt, Input);
