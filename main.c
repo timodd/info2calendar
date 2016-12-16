@@ -6,6 +6,7 @@
 #include "calendar.h"
 #include "escapesequenzen.h"
 #include <string.h>
+#include "database.h"
 
 int main()
 {
