@@ -39,5 +39,6 @@ int main()
       if (choice != NUMPOINTS)
          waitForEnter();
    } while (choice != NUMPOINTS);
+   saveCalendar(countAppointments);
    return 0;
 }
