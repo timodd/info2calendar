@@ -21,6 +21,7 @@ Funktionen:
 #include "menu.h"
 #include "calendar.h"
 #include "escapesequenzen.h"
+#include "database.h"
 
 int countAppointments = 0;
 int *countAppointp = &countAppointments;
@@ -108,7 +109,8 @@ void deleteAppointment()
 
 void searchAppointment()
 {
-   printf("Termin suchen");
+   loadCalendar();
+//   printf("Termin suchen");
 }
 
 void sortCalendar()

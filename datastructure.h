@@ -29,6 +29,7 @@ typedef struct
 } TAppointment;
 
 extern int countAppointments;
+extern int *countAppointp;
 extern TAppointment Calendar[];
 
 #endif
