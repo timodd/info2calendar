@@ -33,12 +33,13 @@ TAppointment Calendar[MAXAPPOINTMENTS];
 void createAppointment()
 {
    TAppointment *apptmnt = Calendar + countAppointments;
-   TDate date;
-   TTime time;
+//   TDate date;
+//   TTime time;
 //   char describ[maxlen_description];
 //   char place[maxlen_place];
-   apptmnt->Description = calloc(100, sizeof(char));
-   apptmnt->Place = calloc(15, sizeof(char));
+   apptmnt->Description = calloc(101, sizeof(char));
+   apptmnt->Place = calloc(16, sizeof(char));
+   apptmnt->Duration = calloc(11, sizeof(char));
 
    Calendar[countAppointments].Time.Minute = -1;
    Calendar[countAppointments].Time.Second = -1;
@@ -57,18 +58,18 @@ void createAppointment()
    getSubMenu(title);
 
    POSITION(4,0);
-   getDate(points[0], &date);
-   Calendar[countAppointments].Date.Day = date.Day;
-   Calendar[countAppointments].Date.Month = date.Month;
-   Calendar[countAppointments].Date.Year = date.Year;
-   Calendar[countAppointments].Date.Weekday = date.Weekday;
+   getDate(points[0], &Calendar[countAppointments].Date);
+//   Calendar[countAppointments].Date.Day = date.Day;
+//   Calendar[countAppointments].Date.Month = date.Month;
+//   Calendar[countAppointments].Date.Year = date.Year;
+//   Calendar[countAppointments].Date.Weekday = date.Weekday;
 
    POSITION(5,0);
    CLEAR_LINE;
-   getTime(points[1], &time);
-   Calendar[countAppointments].Time.Hour = time.Hour;
-   Calendar[countAppointments].Time.Minute = time.Minute;
-   Calendar[countAppointments].Time.Second = time.Second;
+   getTime(points[1], &Calendar[countAppointments].Time);
+//   Calendar[countAppointments].Time.Hour = time.Hour;
+//   Calendar[countAppointments].Time.Minute = time.Minute;
+//   Calendar[countAppointments].Time.Second = time.Second;
 
    POSITION(6,0);
    CLEAR_LINE;
@@ -86,11 +87,7 @@ void createAppointment()
    printf("%s%s",points[3],Calendar[countAppointments].Place);
    POSITION(8,0);
    CLEAR_LINE;
-   getTime(points[4], &time);
-   Calendar[countAppointments].Duration.Hour = time.Hour;
-   Calendar[countAppointments].Duration.Minute = time.Minute;
-   Calendar[countAppointments].Duration.Second = time.Second;
-
+   getTime(points[4], Calendar[countAppointments].Duration);
    (*countAppointp)++;
    POSITION(10,0);
    CLEAR_LINE;
@@ -109,8 +106,7 @@ void deleteAppointment()
 
 void searchAppointment()
 {
-   loadCalendar();
-//   printf("Termin suchen");
+   printf("Termin suchen");
 }
 
 void sortCalendar()

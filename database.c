@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "datastructure.h"
 #include "calendar.h"
 #include "datetime.h"
@@ -12,36 +13,66 @@ void saveAppointment(FILE *d, int index)
    fprintf(d, "  <Time>%02d:%02d:%02d</Time>\n", Calendar[index].Time.Hour, Calendar[index].Time.Minute, Calendar[index].Time.Second);
    fprintf(d, "  <Description>%s</Description>\n", Calendar[index].Description);
    fprintf(d, "  <Location>%s</Location>\n", Calendar[index].Place);
-   fprintf(d, "  <Duration>%02d:%02d:%02d</Duration>\n", Calendar[index].Duration.Hour, Calendar[index].Duration.Minute, Calendar[index].Duration.Second);
+   fprintf(d, "  <Duration>%02d:%02d:%02d</Duration>\n", Calendar[index].Duration->Hour, Calendar[index].Duration->Minute, Calendar[index].Duration->Second);
    fprintf(d, " </Appointment>\n");
 }
+
+void resetAppointment(TAppointment *App)
+{
+   App->Date.Day   = 0;
+   App->Date.Month = 0;
+   App->Date.Year  = 0;
+   App->Date.Weekday = NotADay;
+
+   App->Description = NULL;
+}
+
 void loadAppointment(FILE *d, char l[])
 {
+   char *pos;
+   TAppointment *App = Calendar + countAppointments;
+
+   resetAppointment(App);
    do
    {
       fgets(l, 100, d);
-      if (strstr(l, "<Date>"))
+      pos = l;
+      while ((*pos == ' ') || (*pos == 9))
       {
-//         printf("%s",l);
-         getDateFromString(l, &Calendar[countAppointments].Date);
+         pos++;
+      }
+      if (strncmp(pos, "<Date>", 6) == 0)
+      {
+         getDateFromString(pos + 6, &(App->Date));
       }
       else
-         if (strstr(l, "<Time>"))
+         if (strncmp(pos, "<Time>", 6) == 0)
          {
-//            printf("%s",l);
-            getTimeFromString(l, &Calendar[countAppointments].Time);
+            getTimeFromString(pos + 6, &(App->Time));
          }
       else
-         if (strncmp(l, "  <Description>", 15) == 0)
+         if (strncmp(pos, "<Duration>", 10) == 0)
          {
-//            printf("%s",l);
-//            Calendar[countAppointments].Description);
+             App->Duration = calloc(1, sizeof(TTime));
+            getTimeFromString(pos + 10, App->Duration);
+         }
+
+      else
+         if (strncmp(pos, "<Description>", 13) == 0)
+         {
+            pos += 13;
+            free(App->Description);
+            App->Description = calloc(strlen(pos) + 1, sizeof(char));
+            strcpy(App->Description, pos);
          }
            else
-         if (strncmp(l, "  <Location>", 15) == 0)
+         if (strncmp(pos, "<Location>", 10) == 0)
          {
-//            printf("%s",l);
-//            Calendar[countAppointments].Place);
+            pos += 10;
+            free(App->Place);
+            App->Place = calloc(strlen(pos) + 1, sizeof(char));
+            if (pos)
+               strcpy(App->Place, pos);
          }
       if (feof(d))
          break;
