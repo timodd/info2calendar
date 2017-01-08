@@ -5,5 +5,6 @@ void saveAppointment (FILE *, int);
 int loadAppointment (FILE *, char[]);
 int saveCalendar (int);
 void loadCalendar();
+void resetAppointment(TAppointment *);
 
 #endif
