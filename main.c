@@ -27,7 +27,6 @@ int main()
    {
       clearScreen();
       choice = getMenu(menuTitle, menuPoints, NUMPOINTS);
-      printf("ToDo: ");
       switch (choice)
       {
          case 1: createAppointment();             break;
@@ -37,7 +36,7 @@ int main()
          case 5: sortCalendar();                  break;
          case 6: listCalendar();                  break;
          case 7: loadCalendar();                  break;
-         case 8: saveCalendar(countAppointments); break;
+         case 8: saveCalendar();                  break;
          case NUMPOINTS: exitProg();              break;
       }
       if (choice != NUMPOINTS)

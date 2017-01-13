@@ -3,7 +3,7 @@
 
 void saveAppointment (FILE *, int);
 int loadAppointment (FILE *, char[]);
-int saveCalendar (int);
+int saveCalendar ();
 void loadCalendar();
 void resetAppointment(TAppointment *);
 

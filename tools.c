@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "escapesequenzen.h"
-#include "tools.h"
 #include "datastructure.h"
+#include "escapesequenzen.h"
+#include "calendar.h"
+#include "tools.h"
 
 
 //clear the input buffer
@@ -78,6 +79,7 @@ void printLine(char c,int i)
 void exitProg()
 {
    clearScreen();
+   freeCalendar();
    printf("exit\n");
 }
 // Code from info1. Maybe obsolete, but don't throw away, yet.

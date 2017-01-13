@@ -73,7 +73,8 @@ void loadAppointment(FILE *d, char l[])
       {
          free (App->Duration);
          App->Duration = calloc (1, sizeof(TTime));
-         getTimeFromString (pos + 10, App->Duration);
+         if (App->Duration)
+            getTimeFromString (pos + 10, App->Duration);
       }
 
       else if (strncmp (pos, "<Description>", 13) == 0)
@@ -110,7 +111,7 @@ void loadAppointment(FILE *d, char l[])
    //. . .
 
 }
-int saveCalendar(int c)
+int saveCalendar()
 {
    int i;
    FILE *dat = fopen (filename, "wt");
@@ -121,8 +122,9 @@ int saveCalendar(int c)
    }
    else
    {
+      printf ("\nKalender gespeichert \n");
       fprintf (dat, "<Calendar>\n");
-      for (i = 0; i < c; i++)
+      for (i = 0; i < countAppointments; i++)
       {
          saveAppointment (dat, i);
       }

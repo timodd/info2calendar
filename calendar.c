@@ -49,47 +49,47 @@ void createAppointment()
 
    char *title = "Erfassung eines neuen Termins";
    char *points[5] = {  "Datum        : ",
-                     "Uhrzeit      : ",
-                     "Beschreibung : ",
-                     "Ort          : ",
-                     "Dauer        : "
+                        "Uhrzeit      : ",
+                        "Beschreibung : ",
+                        "Ort          : ",
+                        "Dauer        : "
                      };
 
    getSubMenu(title);
 
-   POSITION(4,0);
+   POSITION(4, 0);
    getDate(points[0], &Calendar[countAppointments].Date);
 //   Calendar[countAppointments].Date.Day = date.Day;
 //   Calendar[countAppointments].Date.Month = date.Month;
 //   Calendar[countAppointments].Date.Year = date.Year;
 //   Calendar[countAppointments].Date.Weekday = date.Weekday;
 
-   POSITION(5,0);
+   POSITION(5, 0);
    CLEAR_LINE;
    getTime(points[1], &Calendar[countAppointments].Time);
 //   Calendar[countAppointments].Time.Hour = time.Hour;
 //   Calendar[countAppointments].Time.Minute = time.Minute;
 //   Calendar[countAppointments].Time.Second = time.Second;
 
-   POSITION(6,0);
+   POSITION(6, 0);
    CLEAR_LINE;
    getText(points[2], &apptmnt -> Description, maxlen_description, 1);
-   *strcpy(Calendar[countAppointments].Description, apptmnt -> Description);
+   strcpy(Calendar[countAppointments].Description, apptmnt -> Description);
    UP(1);
    CLEAR_LINE;
-   printf("%s%s",points[2],Calendar[countAppointments].Description);
-   POSITION(7,0);
+   printf("%s%s", points[2], Calendar[countAppointments].Description);
+   POSITION(7, 0);
    CLEAR_LINE;
    getText(points[3], &apptmnt -> Place, maxlen_place, 0);
-   *strcpy(Calendar[countAppointments].Place, apptmnt -> Place);
+   strcpy(Calendar[countAppointments].Place, apptmnt -> Place);
    UP(1);
    CLEAR_LINE;
-   printf("%s%s",points[3],Calendar[countAppointments].Place);
-   POSITION(8,0);
+   printf("%s%s", points[3], Calendar[countAppointments].Place);
+   POSITION(8, 0);
    CLEAR_LINE;
    getTime(points[4], Calendar[countAppointments].Duration);
    (*countAppointp)++;
-   POSITION(10,0);
+   POSITION(10, 0);
    CLEAR_LINE;
    printf("Termin wurde gespeichert");
 }
@@ -136,7 +136,8 @@ ruft auf: printDate, printTime
 void printAppointment(TAppointment *appoint)
 {
    char *wday[7] = {"So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"};
-   int index = appoint -> Date.Weekday;
+   int i, index = appoint -> Date.Weekday;
+   int fillspace = maxlen_place - strlen(appoint->Place);
    if ((appoint - 1) -> Date.Day)
    {
       TDate tmp = (appoint - 1) -> Date;
@@ -149,18 +150,32 @@ void printAppointment(TAppointment *appoint)
       }
    }
    else // if first date
-      {
-         printf("\n");
-         printLine('=', 80);
-         printf("%s, ", wday[index]);
-         printDate(appoint -> Date);
-      }
-      printTime(appoint -> Time);
-      printf("%s  %s", appoint -> Place, appoint -> Description);
+   {
       printf("\n");
+      printLine('=', 80);
+      printf("%s, ", wday[index]);
+      printDate(appoint -> Date);
+   }
+   printTime(appoint -> Time);
+   printf("%s", appoint -> Place);
+   for (i = 0; i < fillspace; i++)
+   {
+      printf(" ");
+   }
+   printf("| %s\n", appoint -> Description);
 }
 
 void freeCalendar()
 {
-
+   int i;
+   for (i = 0; i < countAppointments; i++)
+   {
+      freeAppointment(i);
+   }
+}
+void freeAppointment(int i)
+{
+   free((Calendar + i)->Duration);
+   free((Calendar + i)->Place);
+   free((Calendar + i)->Description);
 }
