@@ -3,7 +3,6 @@
 #include <string.h>
 #include "datastructure.h"
 #include "escapesequenzen.h"
-#include "calendar.h"
 #include "tools.h"
 
 
@@ -79,7 +78,6 @@ void printLine(char c,int i)
 void exitProg()
 {
    clearScreen();
-   freeCalendar();
    printf("exit\n");
 }
 // Code from info1. Maybe obsolete, but don't throw away, yet.

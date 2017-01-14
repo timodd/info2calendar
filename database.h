@@ -1,7 +1,7 @@
 #ifndef DATABASE_H
    #define DATABASE_H DATABASE_H
 
-void saveAppointment (FILE *, int);
+void saveAppointment (FILE *, TAppointment *);
 int loadAppointment (FILE *, char[]);
 int saveCalendar ();
 void loadCalendar();

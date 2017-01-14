@@ -29,15 +29,15 @@ int main()
       choice = getMenu(menuTitle, menuPoints, NUMPOINTS);
       switch (choice)
       {
-         case 1: createAppointment();             break;
-         case 2: editAppointment();               break;
-         case 3: deleteAppointment();             break;
-         case 4: searchAppointment();             break;
-         case 5: sortCalendar();                  break;
-         case 6: listCalendar();                  break;
-         case 7: loadCalendar();                  break;
-         case 8: saveCalendar();                  break;
-         case NUMPOINTS: exitProg();              break;
+         case 1: createAppointment();              break;
+         case 2: editAppointment();                break;
+         case 3: deleteAppointment();              break;
+         case 4: searchAppointment();              break;
+         case 5: sortCalendar();                   break;
+         case 6: listCalendar();                   break;
+         case 7: loadCalendar();                   break;
+         case 8: saveCalendar();                   break;
+         case NUMPOINTS: freeCalendar();exitProg();break;
       }
       if (choice != NUMPOINTS)
          waitForEnter();

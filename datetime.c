@@ -176,7 +176,7 @@ int getDateFromString (char input[], TDate *d)
    tm = d -> Month;
    ty = d -> Year;
    d -> Weekday = (td += tm < 3 ? ty-- : ty - 2, 23 * tm / 9 + td + 4 + ty / 4 - ty / 100 + ty / 400) % 7;
-   return isDateValid ( (*d) );
+   return isDateValid ((*d));
 }
 
 

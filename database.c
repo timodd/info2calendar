@@ -6,14 +6,14 @@
 #include "datetime.h"
 
 char filename[] = "calend.xml";
-void saveAppointment(FILE *d, int index)
+void saveAppointment(FILE *d, TAppointment *App)
 {
    fprintf (d, " <Appointment>\n");
-   fprintf (d, "  <Date>%02d.%02d.%04d</Date>\n", Calendar[index].Date.Day, Calendar[index].Date.Month, Calendar[index].Date.Year);
-   fprintf (d, "  <Time>%02d:%02d:%02d</Time>\n", Calendar[index].Time.Hour, Calendar[index].Time.Minute, Calendar[index].Time.Second);
-   fprintf (d, "  <Description>%s</Description>\n", Calendar[index].Description);
-   fprintf (d, "  <Location>%s</Location>\n", Calendar[index].Place);
-   fprintf (d, "  <Duration>%02d:%02d:%02d</Duration>\n", Calendar[index].Duration->Hour, Calendar[index].Duration->Minute, Calendar[index].Duration->Second);
+   fprintf (d, "  <Date>%02d.%02d.%04d</Date>\n", App->Date.Day, App->Date.Month, App->Date.Year);
+   fprintf (d, "  <Time>%02d:%02d:%02d</Time>\n", App->Time.Hour, App->Time.Minute, App->Time.Second);
+   fprintf (d, "  <Description>%s</Description>\n", App->Description);
+   fprintf (d, "  <Location>%s</Location>\n", App->Place);
+   fprintf (d, "  <Duration>%02d:%02d:%02d</Duration>\n", App->Duration->Hour, App->Duration->Minute, App->Duration->Second);
    fprintf (d, " </Appointment>\n");
 }
 
@@ -27,24 +27,6 @@ void resetAppointment(TAppointment *App)
    App->Place = NULL;
    App->Duration = NULL;
 }
-
-//void extrStr(TAppointment *App, char* pos, char tag) // TODO************************************************
-//{
-//   int len;
-//   len = strlen (*pos + strlen (tag)) - strlen (tag) - 1;
-//   if(strncmp (pos, "</Description>", 14) == 0)
-//   {
-//      App->Description = calloc (strlen (pos) + 1, sizeof (char));
-//      if (pos)
-//         strncpy(App->Description, pos + strlen (tag), len);
-//   }
-//   else if(strncmp (pos, "</Location>", 12) == 0)
-//   {
-//      App->Place = calloc (strlen (pos) + 1, sizeof (char));
-//      if (pos)
-//         strncpy(App->Place, pos + strlen (tag), len);
-//   }
-//}
 
 void loadAppointment(FILE *d, char l[])
 {
@@ -104,12 +86,6 @@ void loadAppointment(FILE *d, char l[])
    }
    while(strncmp (l, " </Appointment>", 15) != 0);
    (*countAppointp)++;
-//   while ((*bol == ' ') || (*bol == 9))
-//      bol++;
-
-
-   //. . .
-
 }
 int saveCalendar()
 {
@@ -122,11 +98,11 @@ int saveCalendar()
    }
    else
    {
-      printf ("\nKalender gespeichert \n");
+      printf ("\nTermine gespeichert \n");
       fprintf (dat, "<Calendar>\n");
       for (i = 0; i < countAppointments; i++)
       {
-         saveAppointment (dat, i);
+         saveAppointment (dat, Calendar + i);
       }
       fprintf (dat, "</Calendar>\n");
       fclose (dat);
@@ -146,11 +122,11 @@ int loadCalendar()
             break;
          else if (strncmp (line, " <Appointment>", 14) == 0)
          {
-//               printf("%s",line);
             loadAppointment (dat, line);
          }
       }
       while (strncmp (line, "</Calendar>", 11) != 0);
+      printf("\n\nTermine geladen\n");
       return 1;
    }
    else
@@ -160,15 +136,3 @@ int loadCalendar()
    }
    fclose (dat);
 }
-
-
-
-//<Calendar>
-// <Appointment>
-//  <Date> </Date>
-//  <Time> </Time>
-//  <Description> </Description>
-//  <Location> </Location>
-//  <Duration> </Duration>
-// </Appointment>
-//</Calendar>

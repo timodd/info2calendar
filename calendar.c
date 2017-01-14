@@ -32,20 +32,16 @@ TAppointment Calendar[MAXAPPOINTMENTS];
 
 void createAppointment()
 {
-   TAppointment *apptmnt = Calendar + countAppointments;
-//   TDate date;
-//   TTime time;
-//   char describ[maxlen_description];
-//   char place[maxlen_place];
+   TAppointment *apptmnt = Calendar + countAppointments; //pointer auf das aktuelle Appointment im globalen Calendar
    apptmnt->Description = calloc(101, sizeof(char));
    apptmnt->Place = calloc(16, sizeof(char));
-   apptmnt->Duration = calloc(11, sizeof(char));
-
-   Calendar[countAppointments].Time.Minute = -1;
-   Calendar[countAppointments].Time.Second = -1;
-   Calendar[countAppointments].Description = calloc(100, sizeof(char));
-   Calendar[countAppointments].Place = calloc(15, sizeof(char));
-
+   apptmnt->Duration = calloc(1, sizeof(TTime));
+   apptmnt->Time.Hour = -1;
+   apptmnt->Time.Minute = -1;
+   apptmnt->Time.Second = -1;
+   apptmnt->Date.Day = -1;
+   apptmnt->Date.Month = -1;
+   apptmnt->Date.Year = -1;
 
    char *title = "Erfassung eines neuen Termins";
    char *points[5] = {  "Datum        : ",
@@ -54,40 +50,30 @@ void createAppointment()
                         "Ort          : ",
                         "Dauer        : "
                      };
-
    getSubMenu(title);
 
    POSITION(4, 0);
-   getDate(points[0], &Calendar[countAppointments].Date);
-//   Calendar[countAppointments].Date.Day = date.Day;
-//   Calendar[countAppointments].Date.Month = date.Month;
-//   Calendar[countAppointments].Date.Year = date.Year;
-//   Calendar[countAppointments].Date.Weekday = date.Weekday;
+   getDate(points[0], &apptmnt->Date);
 
    POSITION(5, 0);
    CLEAR_LINE;
-   getTime(points[1], &Calendar[countAppointments].Time);
-//   Calendar[countAppointments].Time.Hour = time.Hour;
-//   Calendar[countAppointments].Time.Minute = time.Minute;
-//   Calendar[countAppointments].Time.Second = time.Second;
+   getTime(points[1], &apptmnt->Time);
 
    POSITION(6, 0);
    CLEAR_LINE;
    getText(points[2], &apptmnt -> Description, maxlen_description, 1);
-   strcpy(Calendar[countAppointments].Description, apptmnt -> Description);
    UP(1);
    CLEAR_LINE;
    printf("%s%s", points[2], Calendar[countAppointments].Description);
    POSITION(7, 0);
    CLEAR_LINE;
    getText(points[3], &apptmnt -> Place, maxlen_place, 0);
-   strcpy(Calendar[countAppointments].Place, apptmnt -> Place);
    UP(1);
    CLEAR_LINE;
    printf("%s%s", points[3], Calendar[countAppointments].Place);
    POSITION(8, 0);
    CLEAR_LINE;
-   getTime(points[4], Calendar[countAppointments].Duration);
+   getTime(points[4], apptmnt->Duration);
    (*countAppointp)++;
    POSITION(10, 0);
    CLEAR_LINE;
@@ -119,6 +105,8 @@ void listCalendar()
    char *title = "Termine auflisten";
    CLEAR;
    getSubMenu(title);
+   if (countAppointments == 0)
+      printf("\n\nnoch keine Termine vorhanden\n");
    for (i = 0; i < countAppointments; i++)
    {
       printAppointment(Calendar + i);
@@ -162,7 +150,7 @@ void printAppointment(TAppointment *appoint)
    {
       printf(" ");
    }
-   printf("| %s\n", appoint -> Description);
+   printf(" | %s\n", appoint -> Description);
 }
 
 void freeCalendar()
@@ -170,12 +158,12 @@ void freeCalendar()
    int i;
    for (i = 0; i < countAppointments; i++)
    {
-      freeAppointment(i);
+      freeAppointment(Calendar+i);
    }
 }
-void freeAppointment(int i)
+void freeAppointment(TAppointment *App)
 {
-   free((Calendar + i)->Duration);
-   free((Calendar + i)->Place);
-   free((Calendar + i)->Description);
+   free((App)->Duration);
+   free((App)->Place);
+   free((App)->Description);
 }

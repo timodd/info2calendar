@@ -12,8 +12,6 @@ typedef struct
     TDayOfTheWeek Weekday;
 } TDate;
 
-//typedef struct TDate Date;
-
 typedef struct
 {
    int Hour, Minute, Second;
