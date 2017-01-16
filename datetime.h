@@ -12,4 +12,5 @@
    int getTimeFromString(char [], TTime *);
    void printDate(TDate);
    void printTime(TTime);
+   TTime addTime(TAppointment *);
 #endif // DATETIME_H_INCLUDED

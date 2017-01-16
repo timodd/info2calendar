@@ -11,7 +11,10 @@ void deleteAppointment();
 void searchAppointment();
 void sortCalendar();
 void listCalendar();
-void printAppointment(TAppointment *);
+//void printAppointment(TAppointment *); /**TODO**/
 void freeCalendar();
-void freeAppointment(TAppointment *);
+//void freeAppointment(TAppointment *);
+int compare(int *, int *);
+int compare_down(int *, int *);
+void swp(int *, int *);
 #endif

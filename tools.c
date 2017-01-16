@@ -5,6 +5,18 @@
 #include "escapesequenzen.h"
 #include "tools.h"
 
+/*
+Funktionen:
+
+void clear buffer()
+void waitForEnter()
+void clearScreen()
+int askYesOrNo(char)
+void printLine(char, int)
+void exitProg()
+int getText(char *,  char **, int, int)
+
+*/
 
 //clear the input buffer
 void clearBuffer()

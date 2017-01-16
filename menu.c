@@ -1,9 +1,9 @@
 #include <stdio.h>
+#include "datastructure.h"
 #include "escapesequenzen.h"
 #include "tools.h"
-#include "datastructure.h"
 
-int getMenu(char *mt, char *mp[], int i)
+int getMenu(char *mt, char *mp[], int n) //menuetitle, menuepoints, number of points
 {
    int c = 0, p = 0;
    //print menue on empty screen
@@ -19,11 +19,11 @@ int getMenu(char *mt, char *mp[], int i)
       {
          printf("\n%d. %s",p + 1, mp[p]);
          p++;
-      } while(p < NUMPOINTS);
+      } while(p < n);
       printf("\n\nIhre Wahl: ");
       scanf("%d", &c);
       clearBuffer();
-   } while(c < 1 || c > NUMPOINTS);
+   } while(c < 1 || c > n);
    return c;
 }
 

@@ -1,27 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "datastructure.h"
+#include "tools.h"
+#include "calendar.h"
+#include "datetime.h"
+#include "menu.h"
+#include "escapesequenzen.h"
+#include "database.h"
+#include "sort.h"
+
 /*
 calendar
 
 Funktionen:
 
-   void createAppointment();
-   void editAppointment();
-   void deleteAppointment();
-   void searchAppointment();
-   void sortCalendar();
-   void listCalendar();
-   void printAppointment(TAppointment *)
-
+   void createAppointment()
+   void editAppointment()
+   void deleteAppointment()
+   void searchAppointment()
+   void sortCalendar()
+   void listCalendar()
+   void printAppointment (TAppointment *)
+   freeCalendar()
+   freeAppointment (TAppointment *)
 */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "datastructure.h"
-#include "datetime.h"
-#include "tools.h"
-#include "menu.h"
-#include "calendar.h"
-#include "escapesequenzen.h"
-#include "database.h"
 
 int countAppointments = 0;
 int *countAppointp = &countAppointments;
@@ -78,40 +81,50 @@ void createAppointment()
    POSITION(10, 0);
    CLEAR_LINE;
    printf("Termin wurde gespeichert");
+   waitForEnter();
 }
 
 void editAppointment()
 {
    printf("Termin bearbeiten");
+   waitForEnter();
 }
 
 void deleteAppointment()
 {
    printf("Termin löschen");
+   waitForEnter();
 }
 
 void searchAppointment()
 {
    printf("Termin suchen");
+   waitForEnter();
 }
 
 void sortCalendar()
 {
-   printf("Termine sortieren");
-}
-
-void listCalendar()
-{
-   char *title = "Termine auflisten";
-   CLEAR;
-   getSubMenu(title);
-   if (countAppointments == 0)
-      printf("\n\nnoch keine Termine vorhanden\n");
-   for (i = 0; i < countAppointments; i++)
+   int ch = -1;
+   char *menuT = "Termine sortieren";
+   char *menuP[5] = { "Sortieren nach Datum und Uhrzeit",
+                      "Sortieren nach Beschreibung",
+                      "Sortieren nach Ort",
+                      "Sortieren nach Dauer",
+                      "Zurueck zum Hauptmenue"
+                    };
+   clearScreen();
+   ch = getMenu(menuT, menuP, 5);
+   switch (ch)
    {
-      printAppointment(Calendar + i);
+      case 1:   /*   Quicksort(Calendar, countAppointments); */      break;
+      case 2:                                                    break;
+      case 3:                                                    break;
+      case 4:                                                    break;
+      case 5:                                                    break;
    }
 }
+
+
 
 /* **********************************************
 printAppointment gibt einen einzelnen Termin aus.
@@ -145,12 +158,36 @@ void printAppointment(TAppointment *App)
       printDate(App -> Date);
    }
    printTime(App -> Time);
+   printf(" - ");
+   printTime(addTime(App));
+   printf(" -> ");
    printf("%s", App -> Place);
    for (i = 0; i < fillspace; i++)
    {
       printf(" ");
    }
    printf(" | %s\n", App -> Description);
+}
+
+void listCalendar()
+{
+   char *title = "Termine auflisten";
+   CLEAR;
+   getSubMenu(title);
+   if (countAppointments == 0)
+      printf("\n\nnoch keine Termine vorhanden\n");
+   for (i = 0; i < countAppointments; i++)
+   {
+      printAppointment(Calendar + i);
+   }
+   waitForEnter();
+}
+
+void freeAppointment(TAppointment *App)
+{
+   free((App)->Duration);
+   free((App)->Place);
+   free((App)->Description);
 }
 
 void freeCalendar()
@@ -161,9 +198,22 @@ void freeCalendar()
       freeAppointment(Calendar + i);
    }
 }
-void freeAppointment(TAppointment *App)
+
+int compare(int *A1, int *A2)
 {
-   free((App)->Duration);
-   free((App)->Place);
-   free((App)->Description);
+   return *A1 - *A2;
+}
+
+int compare_down(int *A1, int *A2)
+{
+   return *A2 - *A1;
+}
+
+//strcmp(A1->Description, A2->Description);
+
+void swp(int *A, int *B)
+{
+   *A = *A^*B;
+   *B = *A^*B;
+   *A = *A^*B;
 }

@@ -11,7 +11,7 @@
 int main()
 {
    int choice = -1;
-   char *menuTitle = "Terminverwaltung V 0.4";
+   char *menuTitle = "Terminverwaltung V 0.5";
    char *menuPoints[NUMPOINTS] = { "Neuen Termin anlegen",
                            "Termin bearbeiten",
                            "Termin löschen",
@@ -39,8 +39,6 @@ int main()
          case 8: saveCalendar();                   break;
          case NUMPOINTS: freeCalendar();exitProg();break;
       }
-      if (choice != NUMPOINTS)
-         waitForEnter();
    } while (choice != NUMPOINTS);
    return 0;
 }

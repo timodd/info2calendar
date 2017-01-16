@@ -14,7 +14,7 @@ void printDate (TDate date)
 }
 void printTime (TTime time)
 {
-   printf ("%02d:%02d -> ", time.Hour, time.Minute);
+   printf ("%02d:%02d", time.Hour, time.Minute);
 }
 
 void getDate (char prompt[], TDate *d)
@@ -216,3 +216,25 @@ int getTimeFromString (char input[], TTime *Time)
    return isTimeValid (*Time);
 }
 
+TTime addTime(TAppointment *App)
+{
+   TTime end = App->Time;
+   end.Hour = end.Hour + (App->Duration->Hour);
+   end.Minute = end.Minute + (App->Duration->Minute);
+   end.Second = end.Second + (App->Duration->Second);
+   if (end.Second > 59)
+   {
+      end.Second -= 60;
+      end.Minute +=1;
+   }
+   if (end.Minute > 59)
+   {
+      end.Minute -= 60;
+      end.Hour +=1;
+   }
+   if (end.Hour > 23)
+   {
+      end.Hour -= 24;
+   }
+   return end;
+}
