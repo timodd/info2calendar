@@ -12,7 +12,7 @@ void saveAppointment(FILE *d, TAppointment *App)
    fprintf (d, "  <Date>%02d.%02d.%04d</Date>\n", App->Date.Day, App->Date.Month, App->Date.Year);
    fprintf (d, "  <Time>%02d:%02d:%02d</Time>\n", App->Time.Hour, App->Time.Minute, App->Time.Second);
    fprintf (d, "  <Description>%s</Description>\n", App->Description);
-   fprintf (d, "  <Location>%s</Location>\n", App->Place);
+   fprintf (d, "  <Location>%s</Location>\n", App->Location);
    fprintf (d, "  <Duration>%02d:%02d:%02d</Duration>\n", App->Duration->Hour, App->Duration->Minute, App->Duration->Second);
    fprintf (d, " </Appointment>\n");
 }
@@ -24,7 +24,7 @@ void resetAppointment(TAppointment *App)
    App->Date.Year  = 0;
    App->Date.Weekday = NotADay;
    App->Description = NULL;
-   App->Place = NULL;
+   App->Location = NULL;
    App->Duration = NULL;
 }
 
@@ -72,13 +72,13 @@ void loadAppointment(FILE *d, char l[])
       }
       else if (strncmp (pos, "<Location>", 10) == 0)
       {
-         free (App->Place);
+         free (App->Location);
          len = strlen(pos + 10) - 12;
          if (strncmp (pos + 10 + len, "</Location>", 11) == 0)
          {
-            App->Place = calloc(len + 1, sizeof(char));
-            if (App->Place)
-               strncpy(App->Place, pos + 10, len);
+            App->Location = calloc(len + 1, sizeof(char));
+            if (App->Location)
+               strncpy(App->Location, pos + 10, len);
          }
       }
       if(feof (d))

@@ -117,7 +117,7 @@ int Strlen(char *str)
 //        if (forceinput == 1)
 //         txt -> Description = input;
 //        else
-//         txt -> Place = input;
+//         txt -> Location = input;
 //    }while (Strlen(input) == 0);
 //}
 //

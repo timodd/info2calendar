@@ -22,7 +22,7 @@ typedef struct
    TDate Date;
    TTime Time;
    char *Description;
-   char *Place;
+   char *Location;
    TTime *Duration;
 } TAppointment;
 

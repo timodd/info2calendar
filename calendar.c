@@ -24,6 +24,9 @@ Funktionen:
    void printAppointment (TAppointment *)
    freeCalendar()
    freeAppointment (TAppointment *)
+   compare(int *,int*)
+   compare_down(int *,int*)
+   swp(int *,int*)
 */
 
 int countAppointments = 0;
@@ -37,7 +40,7 @@ void createAppointment()
 {
    TAppointment *App = Calendar + countAppointments; //pointer auf das aktuelle Appointment im globalen Calendar
    App->Description = calloc(101, sizeof(char));
-   App->Place = calloc(16, sizeof(char));
+   App->Location = calloc(16, sizeof(char));
    App->Duration = calloc(1, sizeof(TTime));
    App->Time.Hour = -1;
    App->Time.Minute = -1;
@@ -70,10 +73,10 @@ void createAppointment()
    printf("%s%s", points[2], Calendar[countAppointments].Description);
    POSITION(7, 0);
    CLEAR_LINE;
-   getText(points[3], &App -> Place, maxlen_place, 0);
+   getText(points[3], &App -> Location, maxlen_place, 0);
    UP(1);
    CLEAR_LINE;
-   printf("%s%s", points[3], Calendar[countAppointments].Place);
+   printf("%s%s", points[3], Calendar[countAppointments].Location);
    POSITION(8, 0);
    CLEAR_LINE;
    getTime(points[4], App->Duration);
@@ -104,6 +107,16 @@ void searchAppointment()
 
 void sortCalendar()
 {
+   TAppointment *App = Calendar + countAppointments; //pointer auf das aktuelle Appointment im globalen Calendar
+   App->Description = calloc(101, sizeof(char));
+   App->Location = calloc(16, sizeof(char));
+   App->Duration = calloc(1, sizeof(TTime));
+   App->Time.Hour = -1;
+   App->Time.Minute = -1;
+   App->Time.Second = -1;
+   App->Date.Day = -1;
+   App->Date.Month = -1;
+   App->Date.Year = -1;
    int ch = -1;
    char *menuT = "Termine sortieren";
    char *menuP[5] = { "Sortieren nach Datum und Uhrzeit",
@@ -116,11 +129,11 @@ void sortCalendar()
    ch = getMenu(menuT, menuP, 5);
    switch (ch)
    {
-      case 1:   /*   Quicksort(Calendar, countAppointments); */      break;
-      case 2:                                                    break;
-      case 3:                                                    break;
-      case 4:                                                    break;
-      case 5:                                                    break;
+   case 1: Quicksort(App, countAppointments, cmpDat, swp);  break;
+   case 2: Quicksort(App, countAppointments, cmpDes, swp);  break;
+   case 3: Quicksort(App, countAppointments, cmpLoc, swp);  break;
+   case 4: Quicksort(App, countAppointments, cmpDur, swp);  break;
+   case 5:                                                  break;
    }
 }
 
@@ -138,7 +151,7 @@ void printAppointment(TAppointment *App)
 {
    char *wday[7] = {"So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"};
    int i, index = App -> Date.Weekday;
-   int fillspace = maxlen_place - strlen(App->Place);
+   int fillspace = maxlen_place - strlen(App->Location);
    if ((App - 1) -> Date.Day)
    {
       TDate tmp = (App - 1) -> Date;
@@ -161,7 +174,7 @@ void printAppointment(TAppointment *App)
    printf(" - ");
    printTime(addTime(App));
    printf(" -> ");
-   printf("%s", App -> Place);
+   printf("%s", App -> Location);
    for (i = 0; i < fillspace; i++)
    {
       printf(" ");
@@ -186,7 +199,7 @@ void listCalendar()
 void freeAppointment(TAppointment *App)
 {
    free((App)->Duration);
-   free((App)->Place);
+   free((App)->Location);
    free((App)->Description);
 }
 
@@ -199,21 +212,41 @@ void freeCalendar()
    }
 }
 
-int compare(int *A1, int *A2)
+int cmpDat(TAppointment *A1, TAppointment *A2)
 {
-   return *A1 - *A2;
+   int erg = 0;
+   erg = A1->Date.Year - A2->Date.Year;
+   if (erg == 0)
+      erg = A1->Date.Month - A2->Date.Month;
+   if (erg == 0)
+      erg = A1->Date.Day - A2->Date.Day;
+   return erg;
 }
 
-int compare_down(int *A1, int *A2)
+int cmpDur(TAppointment *A1, TAppointment *A2)
 {
-   return *A2 - *A1;
+   if (A1 && A2)
+      return A1->Duration - A2->Duration;
+   else return 0;
 }
 
-//strcmp(A1->Description, A2->Description);
-
-void swp(int *A, int *B)
+int cmpDes(TAppointment *A1, TAppointment *A2)
 {
-   *A = *A^*B;
-   *B = *A^*B;
-   *A = *A^*B;
+   if (A1 && A2)
+      return A1->Description - A2->Description;
+   else return 0;
+}
+
+int cmpLoc(TAppointment *A1, TAppointment *A2)
+{
+   if (A1 && A2)
+      return A1->Location - A2->Location;
+   else return 0;
+}
+
+void swp(TAppointment *A1, TAppointment *A2)
+{
+//   *A = *A^*B;
+//   *B = *A^*B;
+//   *A = *A^*B;
 }
