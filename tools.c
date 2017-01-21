@@ -126,7 +126,7 @@ int Strlen(char *str)
 int getText(char *prompt,  char **ptxt , int Maxlen, int isForceInput)
 {
     char *Input = NULL;
-    char Format[20];
+    char Format[100];
     int ScanErg;
     int Len;
 
@@ -142,6 +142,7 @@ int getText(char *prompt,  char **ptxt , int Maxlen, int isForceInput)
         sprintf(Format, "%%%i[^\n]", Maxlen); // Format[20] = "%Maxlen[^\n]",  %% = %, %i = Maxlen
         do
         {
+            STORE_POS;
             printf("%s",prompt); // Ausgabe der Eingabeaufforderung
             ScanErg = scanf(Format, Input); // scanf("%Maxlen[^\n]", Input)
             clearBuffer();
@@ -168,12 +169,16 @@ int getText(char *prompt,  char **ptxt , int Maxlen, int isForceInput)
                 else
                     ScanErg = 0;
             }// Ende von ****Abfrage****
-            else if(isForceInput) // Bool != 0
+            else if(!isForceInput) // Location can be empty
             {
                 break;
             }
             else
-                printf("Falsche Eingabe");
+            {
+               POSITION(10,0);
+               printf("Feld kann nicht leer sein");
+               RESTORE_POS;
+            }
         } while( ScanErg == 0); // solange keine Eingabe
 
         free(Input); //reservierter Speicher muss immer am Ende freigegeben werden

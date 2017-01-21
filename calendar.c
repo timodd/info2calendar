@@ -31,7 +31,7 @@ Funktionen:
 
 int countAppointments = 0;
 int *countAppointp = &countAppointments;
-int i;
+//int i;
 const int maxlen_description = 100, maxlen_place = 15;
 
 TAppointment Calendar[MAXAPPOINTMENTS];
@@ -70,13 +70,16 @@ void createAppointment()
    getText(points[2], &App -> Description, maxlen_description, 1);
    UP(1);
    CLEAR_LINE;
-   printf("%s%s", points[2], Calendar[countAppointments].Description);
+   printf("%s%s", points[2], App->Description);
    POSITION(7, 0);
    CLEAR_LINE;
    getText(points[3], &App -> Location, maxlen_place, 0);
    UP(1);
    CLEAR_LINE;
-   printf("%s%s", points[3], Calendar[countAppointments].Location);
+   if (App->Location)
+   printf("%s%s", points[3], App->Location);
+   else
+   printf("%s ", points[3]);
    POSITION(8, 0);
    CLEAR_LINE;
    getTime(points[4], App->Duration);
@@ -129,11 +132,11 @@ void sortCalendar()
    ch = getMenu(menuT, menuP, 5);
    switch (ch)
    {
-   case 1: Quicksort(App, countAppointments, cmpDat, swp);  break;
-   case 2: Quicksort(App, countAppointments, cmpDes, swp);  break;
-   case 3: Quicksort(App, countAppointments, cmpLoc, swp);  break;
-   case 4: Quicksort(App, countAppointments, cmpDur, swp);  break;
-   case 5:                                                  break;
+   case 1: Quicksort(App-countAppointments, countAppointments, cmpDatTim, swp);  break; //der übergebene Pointer zeigt auf das erste Element
+   case 2: Quicksort(App-countAppointments, countAppointments, cmpDes, swp);     break;
+   case 3: Quicksort(App-countAppointments, countAppointments, cmpLoc, swp);     break;
+   case 4: Quicksort(App-countAppointments, countAppointments, cmpDur, swp);     break;
+   case 5:                                                                       break;
    }
 }
 
@@ -151,8 +154,10 @@ void printAppointment(TAppointment *App)
 {
    char *wday[7] = {"So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"};
    int i, index = App -> Date.Weekday;
-   int fillspace = maxlen_place - strlen(App->Location);
-   if ((App - 1) -> Date.Day)
+   int fillspace = maxlen_place;
+   if (App->Location)
+      fillspace= maxlen_place - strlen(App->Location);
+   if ((App - 1) -> Date.Day) //if not first Appointment
    {
       TDate tmp = (App - 1) -> Date;
       if (tmp.Day != App -> Date.Day || tmp.Month != App -> Date.Month || tmp.Year != App -> Date.Year) //if new date
@@ -174,6 +179,7 @@ void printAppointment(TAppointment *App)
    printf(" - ");
    printTime(addTime(App));
    printf(" -> ");
+   if (App->Location)
    printf("%s", App -> Location);
    for (i = 0; i < fillspace; i++)
    {
@@ -184,6 +190,7 @@ void printAppointment(TAppointment *App)
 
 void listCalendar()
 {
+   int i;
    char *title = "Termine auflisten";
    CLEAR;
    getSubMenu(title);
@@ -212,7 +219,7 @@ void freeCalendar()
    }
 }
 
-int cmpDat(TAppointment *A1, TAppointment *A2) /** TODO **/
+int cmpDat(TAppointment *A1, TAppointment *A2)
 {
    int erg = 0;
    erg = A1->Date.Year - A2->Date.Year;
@@ -220,6 +227,26 @@ int cmpDat(TAppointment *A1, TAppointment *A2) /** TODO **/
       erg = A1->Date.Month - A2->Date.Month;
    if (erg == 0)
       erg = A1->Date.Day - A2->Date.Day;
+   return erg;
+}
+
+int cmpTim(TAppointment *A1, TAppointment *A2)
+{
+   int erg = 0;
+   erg = A1->Time.Hour - A2->Time.Hour;
+   if (erg == 0)
+      erg = A1->Time.Minute - A2->Time.Minute;
+   if (erg == 0)
+      erg = A1->Time.Second - A2->Time.Second;
+   return erg;
+}
+
+int cmpDatTim(TAppointment *A1, TAppointment *A2)
+{
+   int erg = 0;
+   erg = cmpDat(A1, A2);
+   if (erg == 0)
+      erg = cmpTim(A1, A2);
    return erg;
 }
 
@@ -244,7 +271,7 @@ int cmpLoc(TAppointment *A1, TAppointment *A2) /** TODO **/
    else return 0;
 }
 
-void swp(TAppointment *A1, TAppointment *A2) /** TODO **/
+void swp(TAppointment *A1, TAppointment *A2)
 {
    TAppointment tmp = *A1;
    *A1 = *A2;

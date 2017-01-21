@@ -15,6 +15,8 @@ void printAppointment(TAppointment *);
 void freeCalendar();
 void freeAppointment(TAppointment *);
 int cmpDat(TAppointment *, TAppointment *);
+int cmpTim(TAppointment *, TAppointment *);
+int cmpDatTim(TAppointment *, TAppointment *);
 int cmpDur(TAppointment *, TAppointment *);
 int cmpDes(TAppointment *, TAppointment *);
 int cmpLoc(TAppointment *, TAppointment *);

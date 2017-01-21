@@ -112,15 +112,22 @@ int saveCalendar()
 int loadCalendar()
 {
    char line[101];
+   char *pos;
+
    FILE *dat = fopen (filename, "rt");
    if (dat)
    {
       do
       {
          fgets (line, 100, dat);
+         pos = line;
+         while ((*pos == ' ') || (*pos == 9))
+         {
+            pos++;
+         }
          if (feof (dat) )
             break;
-         else if (strncmp (line, " <Appointment>", 14) == 0)
+         else if (strncmp (pos, "<Appointment>", 13) == 0)
          {
             loadAppointment (dat, line);
          }
