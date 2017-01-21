@@ -212,7 +212,7 @@ void freeCalendar()
    }
 }
 
-int cmpDat(TAppointment *A1, TAppointment *A2)
+int cmpDat(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
    int erg = 0;
    erg = A1->Date.Year - A2->Date.Year;
@@ -223,30 +223,30 @@ int cmpDat(TAppointment *A1, TAppointment *A2)
    return erg;
 }
 
-int cmpDur(TAppointment *A1, TAppointment *A2)
+int cmpDur(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
    if (A1 && A2)
-      return A1->Duration - A2->Duration;
+      return A1->Duration->Hour - A2->Duration->Hour;
    else return 0;
 }
 
-int cmpDes(TAppointment *A1, TAppointment *A2)
+int cmpDes(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
    if (A1 && A2)
       return A1->Description - A2->Description;
    else return 0;
 }
 
-int cmpLoc(TAppointment *A1, TAppointment *A2)
+int cmpLoc(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
    if (A1 && A2)
       return A1->Location - A2->Location;
    else return 0;
 }
 
-void swp(TAppointment *A1, TAppointment *A2)
+void swp(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
-//   *A = *A^*B;
-//   *B = *A^*B;
-//   *A = *A^*B;
+   TAppointment tmp = *A1;
+   *A1 = *A2;
+   *A2 = tmp;
 }

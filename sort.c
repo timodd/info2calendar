@@ -18,9 +18,9 @@ int partit(TAppointment *A, int ui, int oi, int(*compare)(TAppointment*, TAppoin
    TAppointment *comp = A + ui;
    while(i <= j)
    {
-      while((i <= j) && (compare(A + i, comp) <= 0))
+      while(i <= j && (compare(A + i, comp) <= 0)) /** TODO **/
          i++;
-      while((j >= i) && (compare(A + j, comp) >= 0))
+      while(j >= i && (compare(A + j, comp) >= 0))
          j--;
       if(i < j)
       {
@@ -49,5 +49,5 @@ void qsortt(TAppointment *A, int ui, int oi, int(*compare)(TAppointment*, TAppoi
 
 void Quicksort(TAppointment *A, int num, int(*compare)(TAppointment*, TAppointment*), int(*swp)(TAppointment *, TAppointment *))
 {
-   qsortt(A, 0, num, compare, swp);
+   qsortt(A, 0, num - 1, compare, swp);
 }
