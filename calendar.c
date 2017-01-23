@@ -176,7 +176,7 @@ void printAppointment(TAppointment *App)
       printDate(App -> Date);
    }
    printTime(App -> Time);
-   if (App->Duration->Hour || App->Duration->Minute || App->Duration->Second)
+   if (App->Duration && (App->Duration->Hour || App->Duration->Minute || App->Duration->Second))
    {
       printf(" - ");
       printTime(addTime(App));
@@ -190,7 +190,14 @@ void printAppointment(TAppointment *App)
    {
       printf(" ");
    }
-   printf(" | %s\n", App -> Description);
+   if (strlen(App->Description) < 46)
+      printf(" | %s\n", App -> Description);
+   else
+   {
+      char tmp[44] = {' '};
+      strncpy(tmp,App->Description, 43);
+      printf(" | %s...\n", tmp);
+   }
 }
 
 void listCalendar()
@@ -257,7 +264,7 @@ int cmpDatTim(TAppointment *A1, TAppointment *A2)
 
 int cmpDur(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
-   if (A1 && A2)
+   if (A1->Duration && A2->Duration)
    {
       int erg = 0;
       erg = A1->Duration->Hour - A2->Duration->Hour;
@@ -267,6 +274,10 @@ int cmpDur(TAppointment *A1, TAppointment *A2) /** TODO **/
          erg = A1->Duration->Second - A2->Duration->Second;
       return erg;
    }
+   else if (A1->Duration)
+      return 1;
+   else if (A2->Duration)
+      return -1;
    return 0;
 }
 

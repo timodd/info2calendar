@@ -102,7 +102,7 @@ void getTime (char prompt[], TTime *time)
 
 void getDuration (char prompt[], TTime *time)
 {
-   int isTime = 0;
+//   int isTime = 0;
    char Input[20];
    time -> Hour = 0;
    time -> Minute = 0;
@@ -115,7 +115,7 @@ void getDuration (char prompt[], TTime *time)
    clearBuffer();
    if (*Input)
    {
-      isTime =  getTimeFromString (Input, time);
+      getTimeFromString (Input, time);
    }
 }
 
