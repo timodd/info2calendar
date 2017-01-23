@@ -272,6 +272,8 @@ int cmpDur(TAppointment *A1, TAppointment *A2)
          erg = A1->Duration->Minute - A2->Duration->Minute;
       if (erg == 0)
          erg = A1->Duration->Second - A2->Duration->Second;
+      if (erg == 0)
+         erg = cmpDatTim(A1, A2);
       return erg;
    }
    else if (A1->Duration)
@@ -283,24 +285,34 @@ int cmpDur(TAppointment *A1, TAppointment *A2)
 
 int cmpDes(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
+   int erg = 0;
    if (A1->Description && A2->Description)
-      return A1->Description - A2->Description;
-      else if (A1->Description)
-      return 1;
+   {
+      erg = A1->Description - A2->Description;
+     if (erg == 0)
+        erg = cmpDatTim(A1, A2);
+   }
+   else if (A1->Description)
+      erg = 1;
    else if (A2->Description)
-      return -1;
-   else return 0;
+      erg = -1;
+   return erg;
 }
 
 int cmpLoc(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
+   int erg = 0;
    if (A1->Location && A2->Location)
-      return A1->Location - A2->Location;
+   {
+      erg = A1->Location - A2->Location;
+      if (erg==0)
+         erg = cmpDatTim(A1, A2);
+   }
    else if (A1->Location)
-      return 1;
+      erg = 1;
    else if (A2->Location)
-      return -1;
-   else return 0;
+      erg = -1;
+   return erg;
 }
 
 void swp(TAppointment *A1, TAppointment *A2)
