@@ -12,8 +12,10 @@ void saveAppointment(FILE *d, TAppointment *App)
    fprintf (d, "  <Date>%02d.%02d.%04d</Date>\n", App->Date.Day, App->Date.Month, App->Date.Year);
    fprintf (d, "  <Time>%02d:%02d:%02d</Time>\n", App->Time.Hour, App->Time.Minute, App->Time.Second);
    fprintf (d, "  <Description>%s</Description>\n", App->Description);
-   fprintf (d, "  <Location>%s</Location>\n", App->Location);
-   fprintf (d, "  <Duration>%02d:%02d:%02d</Duration>\n", App->Duration->Hour, App->Duration->Minute, App->Duration->Second);
+   if (App->Location)
+      fprintf (d, "  <Location>%s</Location>\n", App->Location);
+   if (App->Duration->Hour||App->Duration->Minute)
+      fprintf (d, "  <Duration>%02d:%02d:%02d</Duration>\n", App->Duration->Hour, App->Duration->Minute, App->Duration->Second);
    fprintf (d, " </Appointment>\n");
 }
 

@@ -5,6 +5,7 @@
    TTime Time;
    void getDate(char [], TDate *);
    void getTime(char [], TTime *);
+   void getDuration(char [], TTime *);
    int isLeapYear(int);
    int isDateValid(TDate);
    int isTimeValid(TTime);

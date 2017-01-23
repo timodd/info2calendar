@@ -82,7 +82,7 @@ void createAppointment()
    printf("%s ", points[3]);
    POSITION(8, 0);
    CLEAR_LINE;
-   getTime(points[4], App->Duration);
+   getDuration(points[4], App->Duration);
    (*countAppointp)++;
    POSITION(10, 0);
    CLEAR_LINE;
@@ -176,11 +176,16 @@ void printAppointment(TAppointment *App)
       printDate(App -> Date);
    }
    printTime(App -> Time);
-   printf(" - ");
-   printTime(addTime(App));
+   if (App->Duration->Hour || App->Duration->Minute || App->Duration->Second)
+   {
+      printf(" - ");
+      printTime(addTime(App));
+   }
+   else
+      printf("        ");
    printf(" -> ");
    if (App->Location)
-   printf("%s", App -> Location);
+      printf("%s", App -> Location);
    for (i = 0; i < fillspace; i++)
    {
       printf(" ");
@@ -253,8 +258,16 @@ int cmpDatTim(TAppointment *A1, TAppointment *A2)
 int cmpDur(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
    if (A1 && A2)
-      return A1->Duration->Hour - A2->Duration->Hour;
-   else return 0;
+   {
+      int erg = 0;
+      erg = A1->Duration->Hour - A2->Duration->Hour;
+      if (erg == 0)
+         erg = A1->Duration->Minute - A2->Duration->Minute;
+      if (erg == 0)
+         erg = A1->Duration->Second - A2->Duration->Second;
+      return erg;
+   }
+   return 0;
 }
 
 int cmpDes(TAppointment *A1, TAppointment *A2) /** TODO **/

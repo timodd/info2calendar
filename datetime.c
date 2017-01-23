@@ -97,8 +97,26 @@ void getTime (char prompt[], TTime *time)
          printf ("Sie haben nichts eingegeben!");
          RESTORE_POS;
       }
+   } while (!isTime);
+}
+
+void getDuration (char prompt[], TTime *time)
+{
+   int isTime = 0;
+   char Input[20];
+   time -> Hour = 0;
+   time -> Minute = 0;
+   time -> Second = 0;
+   *Input = '\0';
+   STORE_POS;
+   CLEAR_LINE;
+   printf ("%s", prompt);
+   scanf ("%19[^\n]", Input);
+   clearBuffer();
+   if (*Input)
+   {
+      isTime =  getTimeFromString (Input, time);
    }
-   while (!isTime);
 }
 
 int isLeapYear (int year)
@@ -212,7 +230,6 @@ int getTimeFromString (char input[], TTime *Time)
       if (Time -> Minute == -1)
          Time -> Minute = 0;
    }
-
    return isTimeValid (*Time);
 }
 
