@@ -262,7 +262,7 @@ int cmpDatTim(TAppointment *A1, TAppointment *A2)
    return erg;
 }
 
-int cmpDur(TAppointment *A1, TAppointment *A2) /** TODO **/
+int cmpDur(TAppointment *A1, TAppointment *A2)
 {
    if (A1->Duration && A2->Duration)
    {
@@ -283,15 +283,23 @@ int cmpDur(TAppointment *A1, TAppointment *A2) /** TODO **/
 
 int cmpDes(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
-   if (A1 && A2)
+   if (A1->Description && A2->Description)
       return A1->Description - A2->Description;
+      else if (A1->Description)
+      return 1;
+   else if (A2->Description)
+      return -1;
    else return 0;
 }
 
 int cmpLoc(TAppointment *A1, TAppointment *A2) /** TODO **/
 {
-   if (A1 && A2)
+   if (A1->Location && A2->Location)
       return A1->Location - A2->Location;
+   else if (A1->Location)
+      return 1;
+   else if (A2->Location)
+      return -1;
    else return 0;
 }
 

@@ -14,7 +14,7 @@ void saveAppointment(FILE *d, TAppointment *App)
    fprintf (d, "  <Description>%s</Description>\n", App->Description);
    if (App->Location)
       fprintf (d, "  <Location>%s</Location>\n", App->Location);
-   if (App->Duration->Hour||App->Duration->Minute)
+   if (App->Duration && (App->Duration->Hour||App->Duration->Minute||App->Duration->Second))
       fprintf (d, "  <Duration>%02d:%02d:%02d</Duration>\n", App->Duration->Hour, App->Duration->Minute, App->Duration->Second);
    fprintf (d, " </Appointment>\n");
 }
