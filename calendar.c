@@ -22,10 +22,17 @@ Funktionen:
    void sortCalendar()
    void listCalendar()
    void printAppointment (TAppointment *)
-   freeCalendar()
-   freeAppointment (TAppointment *)
-   compare(int *,int*)
-   compare_down(int *,int*)
+   void freeCalendar()
+   void freeAppointment (TAppointment *)
+   int cmpDat(TAppointment *, TAppointment *);
+   int cmpTim(TAppointment *, TAppointment *);
+   int cmpDur(TAppointment *, TAppointment *);
+   int cmpDes(TAppointment *, TAppointment *);
+   int cmpLoc(TAppointment *, TAppointment *);
+   int cmpDatTim(TAppointment *, TAppointment *);
+   int cmpDurDatTim(TAppointment *, TAppointment *);
+   int cmpDesDatTim(TAppointment *, TAppointment *);
+   int cmpLocDatTim(TAppointment *, TAppointment *);
    swp(int *,int*)
 */
 
@@ -132,11 +139,11 @@ void sortCalendar()
    ch = getMenu(menuT, menuP, 5);
    switch (ch)
    {
-   case 1: Quicksort(App-countAppointments, countAppointments, cmpDatTim, swp);  break; //der übergebene Pointer zeigt auf das erste Element
-   case 2: Quicksort(App-countAppointments, countAppointments, cmpDes, swp);     break;
-   case 3: Quicksort(App-countAppointments, countAppointments, cmpLoc, swp);     break;
-   case 4: Quicksort(App-countAppointments, countAppointments, cmpDur, swp);     break;
-   case 5:                                                                       break;
+   case 1: Quicksort(Calendar, countAppointments, cmpDatTim, swp);        break; //der übergebene Pointer zeigt auf das erste Element
+   case 2: Quicksort(Calendar, countAppointments, cmpDesDatTim, swp);     break;
+   case 3: Quicksort(Calendar, countAppointments, cmpLocDatTim, swp);     break;
+   case 4: Quicksort(Calendar, countAppointments, cmpDurDatTim, swp);     break;
+   case 5:                                                                break;
    }
 }
 
@@ -264,54 +271,72 @@ int cmpDatTim(TAppointment *A1, TAppointment *A2)
 
 int cmpDur(TAppointment *A1, TAppointment *A2)
 {
+   int erg = 0;
+   if (A1->Duration)
+      erg = 1;
+   if (A2->Duration)
+      erg = -1;
    if (A1->Duration && A2->Duration)
    {
-      int erg = 0;
       erg = A1->Duration->Hour - A2->Duration->Hour;
       if (erg == 0)
          erg = A1->Duration->Minute - A2->Duration->Minute;
       if (erg == 0)
          erg = A1->Duration->Second - A2->Duration->Second;
-      if (erg == 0)
-         erg = cmpDatTim(A1, A2);
-      return erg;
    }
-   else if (A1->Duration)
-      return 1;
-   else if (A2->Duration)
-      return -1;
-   return 0;
+      return erg;
 }
 
-int cmpDes(TAppointment *A1, TAppointment *A2) /** TODO **/
+int cmpDes(TAppointment *A1, TAppointment *A2)
 {
    int erg = 0;
+   if (A1->Description)
+      erg = strcmp(A1->Description,"");
+   if (A2->Description)
+      erg = -1*(strcmp(A2->Description,""));
    if (A1->Description && A2->Description)
    {
-      erg = A1->Description - A2->Description;
-     if (erg == 0)
-        erg = cmpDatTim(A1, A2);
+      erg = strcmp(A1->Description, A2->Description);
    }
-   else if (A1->Description)
-      erg = 1;
-   else if (A2->Description)
-      erg = -1;
    return erg;
 }
 
-int cmpLoc(TAppointment *A1, TAppointment *A2) /** TODO **/
+int cmpLoc(TAppointment *A1, TAppointment *A2)
 {
    int erg = 0;
+   if (A1->Location)
+      erg = strcmp(A1->Location,"");
+   if (A2->Location)
+      erg = -1*(strcmp(A2->Location,""));
    if (A1->Location && A2->Location)
    {
-      erg = A1->Location - A2->Location;
-      if (erg==0)
-         erg = cmpDatTim(A1, A2);
+      erg = strcmp(A1->Location, A2->Location);
    }
-   else if (A1->Location)
-      erg = 1;
-   else if (A2->Location)
-      erg = -1;
+   return erg;
+}
+
+int cmpDurDatTim(TAppointment *A1, TAppointment *A2)
+{
+   int erg = 0;
+   erg = cmpDur(A1, A2);
+   if (erg == 0)
+      erg = cmpDatTim(A1, A2);
+   return erg;
+}
+int cmpLocDatTim(TAppointment *A1, TAppointment *A2)
+{
+   int erg = 0;
+   erg = cmpLoc(A1, A2);
+   if (erg == 0)
+      erg = cmpDatTim(A1, A2);
+   return erg;
+}
+int cmpDesDatTim(TAppointment *A1, TAppointment *A2)
+{
+   int erg = 0;
+   erg = cmpDes(A1, A2);
+   if (erg == 0)
+      erg = cmpDatTim(A1, A2);
    return erg;
 }
 

@@ -16,9 +16,12 @@ void freeCalendar();
 void freeAppointment(TAppointment *);
 int cmpDat(TAppointment *, TAppointment *);
 int cmpTim(TAppointment *, TAppointment *);
-int cmpDatTim(TAppointment *, TAppointment *);
 int cmpDur(TAppointment *, TAppointment *);
 int cmpDes(TAppointment *, TAppointment *);
 int cmpLoc(TAppointment *, TAppointment *);
+int cmpDatTim(TAppointment *, TAppointment *);
+int cmpDurDatTim(TAppointment *, TAppointment *);
+int cmpDesDatTim(TAppointment *, TAppointment *);
+int cmpLocDatTim(TAppointment *, TAppointment *);
 void swp(TAppointment *, TAppointment *);
 #endif

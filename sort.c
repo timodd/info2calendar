@@ -18,7 +18,7 @@ int partit(TAppointment *A, int ui, int oi, int(*compare)(TAppointment*, TAppoin
    TAppointment *comp = A + ui;
    while(i <= j)
    {
-      while(i <= j && (compare(A + i, comp) <= 0)) /** TODO **/
+      while(i <= j && (compare(A + i, comp) <= 0))
          i++;
       while(j >= i && (compare(A + j, comp) >= 0))
          j--;
